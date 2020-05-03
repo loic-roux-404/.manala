@@ -1,0 +1,4 @@
+manala:
+    description: Ansible
+    sync:
+      - .manala

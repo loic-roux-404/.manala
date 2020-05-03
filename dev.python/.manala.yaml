@@ -1,0 +1,6 @@
+manala:
+    description: Py
+    sync:
+      - .manala/.gitignore .gitignore
+      - .manala/python.mk
+      - ../ops.vagrant/.manala .manala/vagrant
