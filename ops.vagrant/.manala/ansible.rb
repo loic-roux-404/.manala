@@ -31,9 +31,9 @@ class Ansible < Component
     # TODO : provision from local ansible exe
   end
 
-  def ans_specs
+  def ans_worker
     $vagrant.vm.provision :shell do |s|
-      s.inline = './utils/playbook-specs.sh'
+      s.inline = './utils/playbook-worker.sh'
       s.args = @git_url
     end
   end

@@ -2,7 +2,7 @@
 SHELL = /bin/bash
 # read setting from config
 CONFIG=config.json
-config = $(shell jq -r ".$(1)" config.json)
+config = $(shell jq -r ".$(1)" config.json || false) # TODO share .default.json file + template vagrant
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 IP?=$(call config,network.ip)

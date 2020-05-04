@@ -1,5 +1,5 @@
 manala:
-    description: Py
+    description: Python
     sync:
       - .manala/.gitignore .gitignore
       - .manala/python.mk
