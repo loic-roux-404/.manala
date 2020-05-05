@@ -62,19 +62,21 @@ class Network < Component
     # Not tested
     cert = $config.network.ssl.cert
     path = $config.network.ssl.path
-    local_path = "#{__dir__}/.cert"
+    cert_path = "#{$__dir__}/.vagrant/certs"
+
+    Dir.mkdir(cert_path) unless File.exists?(cert_path)
 
     $vagrant.trigger.after :up do |t|
       t.run = { inline: 
-        "scp -P 22 vagrant@#{$config.domain}:#{path}/#{cert} #{local_path}"
+        "scp -P 22 vagrant@#{$config.domain}:#{path}/#{cert} #{cert_path}"
       }
 
       if Vagrant::Util::Platform.darwin? || Vagrant::Util::Platform.linux?
         t.run = { inline: 
-          "sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain #{local_path}/#{cert}"
+          "sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain #{cert_path}/#{cert}"
         }
       else
-        t.run = { inline: "certutil -enterprise -f -v -AddStore 'Root' '#{local_path}/#{cert}'"}
+        t.run = { inline: "certutil -enterprise -f -v -AddStore 'Root' '#{cert_path}/#{cert}'"}
       end
     end
   end

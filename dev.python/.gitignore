@@ -139,3 +139,5 @@ cython_debug/
 
 # vagrant additionals
 .vagrant
+.DS_Store
+.idea/

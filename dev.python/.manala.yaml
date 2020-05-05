@@ -1,6 +1,6 @@
 manala:
     description: Python
     sync:
-      - .manala/.gitignore .gitignore
+      - .gitignore
       - .manala/python.mk
       - ../ops.vagrant/.manala .manala/vagrant

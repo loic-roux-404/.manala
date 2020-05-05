@@ -26,21 +26,21 @@ class ConfigError
   S = "\n"
   BASE_MSG = "[=== Error in config ===]"+S
 
-  def initialize(_concerned = "", _suggests = nil, _type = 'standard')
-		@suggests = _suggests || BASE_MSG
+  def initialize(_concerned = "", _message = BASE_MSG, _type = 'standard')
+		@message ||= _message
 		@concerned = _concerned 
     puts self.send(_type)
     exit
   end
 
   def standard()
-    @error = @suggests += @concerned
+    @error = @message += "Concerned :#{@concerned}"
   end
 
 	def missing()
     @error = BASE_MSG
     @concerned ? @error += "Concerned : #{self.concerned}"+S : nil
-    @suggests ? @error += "Available Options : #{@suggests}"+S : nil
+    @message ? @error += "Available Options : #{@message}"+S : nil
   end
 
   def concerned

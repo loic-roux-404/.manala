@@ -6,7 +6,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 require_relative '.manala/vg-bootstrap/start'
 
 begin
-    Cnf = File.read(__dir__+'/config.json') 
+    File.read(__dir__+'/config.json') 
 rescue
     puts "Creating missing config"
     CONFIG = File.open('config.json', 'w+')
@@ -15,5 +15,5 @@ rescue
 end
 
 Vagrant.configure("2") do |vagrant|
-  VagrantBootstrap.new(Cnf || File.read(__dir__+'/config.json'), vagrant, __dir__)
+  VagrantBootstrap.new(File.read(__dir__+'/config.json'), vagrant, __dir__)
 end

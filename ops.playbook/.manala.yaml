@@ -5,6 +5,7 @@ manala:
       - ../ops.vagrant/Vagrantfile ./Vagrantfile
       - ansible.cfg.tmpl
       - .manala/ansible.mk
+      - .gitignore
 
 ansible:
     # @schema {"type": "string"}
