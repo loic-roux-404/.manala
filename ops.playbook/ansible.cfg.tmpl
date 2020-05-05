@@ -1,0 +1,21 @@
+[defaults]
+interpreter_python      = /usr/bin/python3
+# default inventory
+{{- if .Vars.ansible.default_inventory }}
+hostfile                = ./inventories/{{ .Vars.ansible.default_inventory }}
+inventory               = ./inventories/{{ .Vars.ansible.default_inventory  }}
+{{- end }}
+# don't forget to delete role folder you wan't to debug in ./.ext_roles/
+roles_path              = ./.ext_roles:./roles
+sudo_user               = root
+remote_user             = root
+transport               = ssh
+
+[privilege_escalation]
+become                  = True
+become_method           = sudo
+become_user             = root
+become_ask_pass         = False
+
+[ssh_connection]
+pipelining              = True

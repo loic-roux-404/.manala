@@ -1,5 +1,14 @@
 manala:
     description: Ansible
     sync:
+      - ../ops.vagrant/.manala/vg-bootstrap .manala/vg-bootstrap
+      - ../ops.vagrant/Vagrantfile ./Vagrantfile
+      - ansible.cfg.tmpl
       - .manala/ansible.mk
-      - ../ops.vagrant/.manala .manala/vagrant
+
+ansible:
+    # @schema {"type": "string"}
+    # @option {"label": "Hostname"}
+    default_inventory: ~
+
+# TODO: use this file instead of vagrant config.json

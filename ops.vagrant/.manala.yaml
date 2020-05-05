@@ -1,4 +1,6 @@
 manala:
     description: Vagrant
     sync:
-      - .manala
+      - .manala/.gitignore
+      - .manala/vg-bootstrap/
+      - Vagrantfile

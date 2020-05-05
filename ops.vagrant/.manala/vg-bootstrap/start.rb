@@ -15,9 +15,10 @@ require_relative "ansible"
 
 class VagrantBootstrap
   # passing to each module vagrant object and part of the config hashmap
-  def initialize(user_config, vagrant)
+  def initialize(user_config, vagrant, __dir__ = nil)
     $vagrant = vagrant # Vagrant object
     $config  = parse_config(user_config) # Full config.json
+    $__dir__ ||= __dir__
     Base.new
     Network.new
     Provider.new

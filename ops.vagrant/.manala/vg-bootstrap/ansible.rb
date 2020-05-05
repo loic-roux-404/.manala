@@ -23,6 +23,7 @@ class Ansible < Component
       ansible.provisioning_path = "#{playbook_path}"
       ansible.playbook = $config.ansible.playbook
       ansible.become = true
+      ansible.inventory_path = $config.ansible.inventory
       ansible.extra_vars = $config.ansible.extra_vars
     end
   end
@@ -32,10 +33,9 @@ class Ansible < Component
   end
 
   def ans_worker
-    $vagrant.vm.provision :shell do |s|
-      s.inline = './utils/playbook-worker.sh'
-      s.args = @git_url
-    end
+    $vagrant.vm.provision :shell,
+      run: './utils/playbook-worker.sh',
+      args: "#{@git_url} #{$config.ansible.sub_playbook} #{$config.ansible.inventory}"
   end
 
   def parse_config
