@@ -4,8 +4,7 @@ This project is used to share reccurrent files between multiple projects
 
 ## TODO
 
-- dhcp network option
-- paramiko
+- ?? read manala.yaml, use YAML instead of JSON ??
 
 ## Doc
 
@@ -20,10 +19,9 @@ For all tools `manala` is required to sync recipes in all projects
 - `vagrant`
 - `ruby` ( >= 2.3)
 
-### Context 
+### Vagranr plugin Context 
 
-This plugin is aimed at setting a virtual environment for
-web servers or ansible playbook debugging with real production simulation
+This plugin is a **facade** aimed at setting easily a virtual vagrant environment 
 
 Goal is to provide reusable set of tools and Organisation on **vagrant environments** with like :
 - Makefile target (web module != playbook module)
@@ -35,14 +33,18 @@ Goal is to provide reusable set of tools and Organisation on **vagrant environme
 
 ---
 #### Full config.json 
-> All variables are to their default value
 
-```
+> Use this same schema in manala.yaml to share a default config
+
+> All variables are set to their default value
+
+``` js
 {
 	"domain": "localhost", // format : domain.tld (landrush used)
-	"box": "loic-roux-404/deb64-buster", // Vagrant cloud
+	"box": "loic-roux-404/deb64-buster", // Vagrant cloud box
 	"vb_guest_update": false, // Update VirtualBox Guest Additions (for shared folders)
 	"box_update": false, // Update box from vagrant cloud
+	"box_version": null, // Choose a valid box version
 	"git": {
 		"org": null, // provide an username to clone your playbook
 		"provider": "https://github.com" // can be https://gitlab.com
@@ -53,19 +55,19 @@ Goal is to provide reusable set of tools and Organisation on **vagrant environme
 		"guest": "/vagrant" // Project path on guest machine (used by shared folders)
 	},
 	"network": {
-		"ip": "192.168.33.10", NEED TO ADAPT TO YOUR CONFIG
-		"type": "private", // Available public
+		"ip": "192.168.33.10", //NEED TO ADAPT TO YOUR CONFIG
+		"type": "private", // Available public, private (check vagrant doc)
 		"dns": true,
-        // Specify object of type for each port
-        // {
-        //    guest: 80, // (required)
-        //    host: 8080, // (required)
-        //    auto_correct: true // (optional)
-        //    disabled: false (optional)
-        // }
+		// Specify object of type for each port
+		// {
+		//    guest: 80, // (required)
+		//    host: 8080, // (required)
+		//    auto_correct: true // (optional)
+		//    disabled: false (optional)
+		// }
 		"ports": [], 
-        // NOT TESTED
-        // add cert in your machine to enable ssl
+		// NOT TESTED
+		// add cert in your machine to enable ssl
 		"ssl": {
 			"cert": null, // cert filename
 			"path": "/etc/ssl" // cert path in guest
@@ -75,9 +77,10 @@ Goal is to provide reusable set of tools and Organisation on **vagrant environme
 		"disabled": false,
 		"playbook": null, // git repository name
 		"inventory": null, // Choose inventory (ex : dev, prod, staging)
-         // AVAILABLE :
-         //   worker (see script header for playbook-worker.sh)
-         //   classic (need ansible on your machine)
+		// AVAILABLE :
+		// - worker (see script header for playbook-worker.sh)
+		// - classic (need ansible on your machine)
+		// - local (need ansible on guest machine)
 		"type": "local",
 		"sub_playbook": "site.yml", // Execute another file under playbook root instead of default site.yml
 		"vars": { // extra_vars for ansible
@@ -85,11 +88,11 @@ Goal is to provide reusable set of tools and Organisation on **vagrant environme
 		}
 	},
 	"fs": {
-		"type": "rsync", // AVAILABLE : nfs, smb (not tested), vbox (need "vb_guest_update": true)
+		"type": "rsync", // AVAILABLE : nfs, smb, vbox (need vb_guest_update = true)
 		"opts": { 
 			"auto": true, // watch enable for rsync
 			"disabled": true, // for all
-			"ignored": [ // ignored for rsync
+			"ignored": [ // ignored files in rsync
 				"/**/.DS_Store",
 				".git",
 				".vagrant",
@@ -100,25 +103,25 @@ Goal is to provide reusable set of tools and Organisation on **vagrant environme
 	},
 	"provider": {
 		"type": "virtualbox", // Only Virtualbox available for now
-        // Refer to Virtualbox original documentation or `VBoxManage --help `
-        // define parameter to the VBoxManage command used by vagrant
-        // Params are defined in the config.json file with name=param pair
-        // We use this syntax sugar to loop and create dynamic virtualbox vm settings
+		// Refer to Virtualbox original documentation or `VBoxManage --help `
+		// define parameter to the VBoxManage command used by vagrant
+		// Params are defined in the config.json file with name=param pair
+		// We use this syntax sugar to loop and create dynamic virtualbox vm settings
+		// By default vm is modified to 1024Mo RAM & 2 CPU's
 		"opts": {
-            "memory": "2048"
-            "cpus" : "2"
-            "ioapic" : "on",
-            // Other settings
-            "cpuexecutioncap": "80",
-            "natdnsproxy1": "on",
-            "natdnshostresolver1": "on",
-            "nictrace1": "on",
-            nictracefile1": ".vagrant/dump.pcap",
-            cableconnected1': 'on'
+			"memory": "2048"
+			"cpus" : "2"
+			"ioapic" : "on",
+			// Others settings example
+			"cpuexecutioncap": "80",
+			"natdnsproxy1": "on",
+			"natdnshostresolver1": "on",
+			"nictrace1": "on",
+			"nictracefile1": ".vagrant/dump.pcap",
+			"cableconnected1": "on"
 		}
 	}
 }
-
 ```
 
 ## Contribute

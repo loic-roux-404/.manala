@@ -1,46 +1,62 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# ruby modules
+# Ruby modules
 require 'json'
-# utils
-require_relative "utils/scalars"
-require_relative "utils/component"
-# vagrant components
-require_relative 'base'
-require_relative 'network'
-require_relative 'provider'
-require_relative "fs"
-require_relative "ansible"
+# Mother vagrant component model
+require_relative "model/component"
 
 class VagrantBootstrap
-  # passing to each module vagrant object and part of the config hashmap
-  def initialize(user_config, vagrant, __dir__)
+  # Class Plugin => Array of config keys
+  PLUGINS_CONFIGS = {
+    Base: false, # false give correct object with function base_config()
+    Provider: [:project_name],
+    Network: [:domain],
+    Ansible: [:git],
+    Fs: [:paths]
+  }
+
+  # Passing to each module vagrant object and part of the config struct
+  def initialize(user_config, vagrant, dir)
     $vagrant = vagrant # Vagrant object
-    $config  = parse_config(user_config) # Full config.json
-    $__dir__ = __dir__
-    Base.new
-    Provider.new
-    Network.new
-    Ansible.new
-    Fs.new
+    @user_config = user_config
+    $__dir__ = dir
+
+    PLUGINS_CONFIGS.each do |plugin, others_cnf|
+      require_relative "plugins/#{plugin.downcase}"
+      a = [config(plugin.downcase)]
+      others_cnf ? others_cnf.each { |param| a.push(config(param)) } : nil
+      Object.const_get(plugin).new(*a) # Launch plugin with their associated config
+    end
   end
 
-  def parse_config(user_config)
-    default = JSON.parse(File.read(__dir__+'/.default.json'))
-    # TODO: config path as argument
-    $config = JSON.parse(
-      default.deep_merge(JSON.parse(user_config)).to_json,
-      object_class: OpenStruct
-    )
+  # Request a config by index
+  def config(index = nil)
+    @default ||= JSON.parse(File.read(__dir__+'/default.json'))
+    @config ||= JSON.parse(@default.deep_merge(JSON.parse(@user_config)).to_json)
+
+    if !@config[index.to_s] 
+      base_config(@config).to_struct
+    elsif !@config[index.to_s].is_a?(Hash)
+       @config[index.to_s]
+    else
+      @config[index.to_s].to_struct  
+    end
+  end
+
+  # Create base from config.json root
+  def base_config(config)
+    res = {}
+    config.each do |key, value|
+      !value.is_a?(Hash) && !value.is_a?(Array) ? res[key] = value : nil
+    end
+    res
   end
   # end class VagrantBootstrap
 end
 
-# FIXES :
 # Add common fixes depending on actuals vagrant issues
-# =====================
-# vagrant/vbox dhcp error
+# vagrant/vbox dhcp error (v2.2.7)
 class VagrantPlugins::ProviderVirtualBox::Action::Network
   def dhcp_server_matches_config?(dhcp_server, config)
     true

@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+class Ansible < Component
+  PREFIX = 'ans_'
+  PLAYBOOK_PATH = "~/.ansible"
+  
+  def initialize(cnf, git)
+    super(cnf, PREFIX)
+    @git = git
+
+    if @valid
+      parse_config
+      self.send(PREFIX+@cnf.type)
+    end
+  end
+
+  def ans_local(local = true)
+    # Put playbook in guest
+    if local 
+      $vagrant.vm.provision :shell, inline: @git_clone
+    end
+    # Start ansible-playbook command  
+    $vagrant.vm.provision ansible_mode_id do |ansible|
+      ansible.provisioning_path = "#{PLAYBOOK_PATH}"
+      ansible.playbook = @cnf.playbook
+      ansible.inventory_path = @cnf.inventory # TODO : case no inventory
+      ansible.extra_vars = @cnf.extra_vars
+    end
+  end
+
+  def ans_classic
+    system(git_clone)
+    self.ans_local(false)
+  end
+
+  def ans_worker
+    $vagrant.vm.provision :shell,
+      run: File.join(__dir__, '../', 'playbook-worker.sh'),
+      args: "#{@git_url} #{@cnf.sub_playbook} #{@cnf.inventory}"
+  end
+
+  def parse_config
+    if @cnf.playbook
+      @git_url = [
+        @git.provider, 
+        @git.org,
+        @cnf.playbook
+      ].join('/')
+      @git_clone = "git clone #{@git_url} #{PLAYBOOK_PATH}/#{@cnf.playbook} "
+    end
+  end
+
+  def requirements
+    if !@cnf.disabled || !@git.org || !@cnf.playbook
+      ConfigError.new(
+        ['ansible.disabled', 'git.org', 'ansible.playbook'], # options concerned
+        'bool | string<git-username> | string<playbook-name>', # suggestion for each option
+        'missing'
+      )
+      return false
+    end
+
+    if !self.is_valid_type(@cnf.type)
+      raise ConfigError.new(
+        ['ansible.type'], # options concerned
+        self.rm_prefix("\n - "), # suggest for valid process of this component
+        'missing'
+      )
+    end
+  end
+  # end class Ansible
+end

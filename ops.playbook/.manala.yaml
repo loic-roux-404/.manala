@@ -7,11 +7,14 @@ manala:
       - ../vagrant/
 
 ansible:
-    # @schema {"type": ["string", "null"]}
+    # @schema {"type": "string"}
     # @option {"label": "Default inventory"}
     default_inventory: ~
-    # @schema {"type": "boolean"}
+    # @schema {"enum": [false, true]}
     # @option {"label": "Keep roles in project"}
     internal_roles: False
 
 # TODO: use this file instead of vagrant config.json
+
+vagrant: 
+    

@@ -1,0 +1,54 @@
+manala:
+    repository: /Users/loic/Ops/manala-recipes
+    recipe: vagrant
+
+vagrant: 
+    project_name: {{ .Vars.vagrant.project_name | toYaml }}
+    box: {{ .Vars.vagrant.box | toYaml }}
+    box_update: {{ .Vars.vagrant.box_update | toYaml }}
+    box_version: {{ .Vars.vagrant.box_version | toYaml }}
+    vb_guest_update: {{ .Vars.vagrant.vb_guest_update | toYaml }}
+    domain: {{ .Vars.vagrant.domain | toYaml }}
+    git:
+        org: {{ .Vars.vagrant.git.org | toYaml }}
+        provider: {{ .Vars.vagrant.git.provider | toYaml }}
+        
+    paths: 
+        web: {{ .Vars.vagrant.paths.web | toYaml }}
+        host: {{ .Vars.vagrant.paths.host | toYaml }}
+        guest: {{ .Vars.vagrant.paths.guest | toYaml }}
+
+    network:
+        ip: {{ .Vars.vagrant.network.ip | toYaml }}
+        type: {{ .Vars.vagrant.network.type | toYaml }}
+        dhcp: {{ .Vars.vagrant.network.dhcp | toYaml }}
+        dns: {{ .Vars.vagrant.network.dns | toYaml }}
+        ports: {{ .Vars.vagrant.network.ports | toYaml }}
+        ssl:
+            cert: {{ .Vars.vagrant.network.ssl.cert | toYaml }}
+            path: {{ .Vars.vagrant.network.ssl.path | toYaml }}
+
+    ansible:
+        disabled: {{ .Vars.vagrant.ansible.disabled | toYaml }}
+        playbook: {{ .Vars.vagrant.ansible.playbook | toYaml }}
+        inventory: {{ .Vars.vagrant.ansible.inventory | toYaml }}
+        type: {{ .Vars.vagrant.ansible.type | toYaml }}
+        sub_playbook: {{ .Vars.vagrant.ansible.sub_playbook | toYaml }}
+        vars: 
+            {{ .Vars.vagrant.ansible.vars | toYaml | nindent 12 }}
+
+    fs: 
+        type: {{ .Vars.vagrant.fs.type | toYaml }}
+        opts: 
+            auto: {{ .Vars.vagrant.fs.opts.auto | toYaml }}
+            disabled: {{ .Vars.vagrant.fs.opts.disabled | toYaml }}
+            smb_username: {{ .Vars.vagrant.fs.opts.smb_username | toYaml }}
+            smb_password : {{ .Vars.vagrant.fs.opts.smb_password | toYaml }}
+            ignored:
+                {{ .Vars.vagrant.fs.opts.ignored | toYaml | nindent 16 }}
+
+    provider:
+        type: {{ .Vars.vagrant.provider.type | toYaml }}
+        opts: 
+            {{ .Vars.vagrant.provider.opts | toYaml | nindent 12 }}
+
