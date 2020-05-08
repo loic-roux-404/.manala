@@ -3,4 +3,4 @@ manala:
     sync:
       - .gitignore
       - .manala/python.mk
-      - ../ops.vagrant/.manala .manala/vagrant
+      - ../vagrant/

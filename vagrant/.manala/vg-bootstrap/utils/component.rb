@@ -8,7 +8,8 @@ class Component
     @PREFIX = prefix
     @Map = self.methods.grep(/#{@PREFIX}/).map(&:to_s)
   end
-
+  # check if your component has valid sub functions 
+  # (ex check correct ansible provision process)
   def is_valid_type(type, is_suffix = false)
     type && @Map.include?(!is_suffix ? @PREFIX+type : type+@PREFIX)
   end
@@ -22,15 +23,19 @@ end
 
 # Simplify errors 
 # Show error concerned config and suggest options
-class ConfigError
+class ConfigError < Exception
   S = "\n"
   BASE_MSG = "[=== Error in config ===]"+S
 
-  def initialize(_concerned = "", _message = BASE_MSG, _type = 'standard')
+  def initialize(
+    _concerned = "",
+    _message = BASE_MSG,
+    _type = 'standard',
+    _exit = true
+  )
 		@message ||= _message
 		@concerned = _concerned 
     puts self.send(_type)
-    exit
   end
 
   def standard()

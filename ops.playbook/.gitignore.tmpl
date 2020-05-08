@@ -1,6 +1,8 @@
 .DS_Store
+{{- if ne .Vars.ansible.internal_roles true}}
 roles/*
 !roles/requirements.yml
+{{- end }}
 .vagrant/
 .ext_roles
 # TODO : replace with a vault call after Prod

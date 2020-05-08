@@ -1,14 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# TODOC
 class Base
-	@UPDATE_BOX = ENV['BOX_UPDATE']
-	@UPDATE_VBGUEST = ENV['VBGUEST_UPDATE']
 
 	def initialize()
-		@UPDATE_BOX = defined?(@UPDATE_BOX) || $config.box_update
-		@UPDATE_VBGUEST = defined?(@UPDATE_VBGUEST) || $config.vb_guest_update
+		@UPDATE_BOX = ENV['BOX_UPDATE'] || $config.box_update
+		@UPDATE_VBGUEST = ENV['VBGUEST_UPDATE'] || $config.vb_guest_update
 		requirements
 		# Dispatch
 		box

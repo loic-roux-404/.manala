@@ -5,6 +5,7 @@ This project is used to share reccurrent files between multiple projects
 ## TODO
 
 - dhcp network option
+- paramiko
 
 ## Doc
 

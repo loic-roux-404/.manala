@@ -83,7 +83,7 @@ class Network < Component
 
   def requirements
     if !self.is_valid_type($config.network.type, true)
-      ConfigError.new(
+      raise ConfigError.new(
         ["$config.network.type"], # options concerned
         self.rm_prefix("\n - "), # suggest for option
         'missing'

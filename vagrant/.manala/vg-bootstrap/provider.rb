@@ -39,7 +39,7 @@ class Provider < Component
 
   def requirements
     if !self.is_valid_type($config.provider.type)
-      ConfigError.new(
+      raise ConfigError.new(
         ["config.provider.type"], # options concerned
         self.rm_prefix("\n - "), # suggest for option
         'missing'

@@ -1,15 +1,17 @@
 manala:
     description: Ansible
     sync:
-      - ../ops.vagrant/.manala/vg-bootstrap .manala/vg-bootstrap
-      - ../ops.vagrant/Vagrantfile ./Vagrantfile
       - ansible.cfg.tmpl
       - .manala/ansible.mk
-      - .gitignore
+      - .gitignore.tmpl
+      - ../vagrant/
 
 ansible:
-    # @schema {"type": "string"}
-    # @option {"label": "Hostname"}
+    # @schema {"type": ["string", "null"]}
+    # @option {"label": "Default inventory"}
     default_inventory: ~
+    # @schema {"type": "boolean"}
+    # @option {"label": "Keep roles in project"}
+    internal_roles: False
 
 # TODO: use this file instead of vagrant config.json

@@ -66,7 +66,7 @@ class Fs < Component
 
   def requirements
     if !self.is_valid_type($config.fs.type)
-      ConfigError.new(
+      raise ConfigError.new(
         ["config.fs.type"], # options concerned
         self.rm_prefix("\n - "), # suggest option
         'missing'
