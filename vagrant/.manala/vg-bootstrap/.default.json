@@ -37,6 +37,8 @@
 		"opts": {
 			"auto": true,
 			"disabled": true,
+			"smb_user": null,
+			"smb_password": null,
 			"ignored": [
 				"/**/.DS_Store",
 				".git",

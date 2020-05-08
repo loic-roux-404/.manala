@@ -54,7 +54,7 @@ class Ansible < Component
     if $config.ansible.disabled || !$config.git.org || !$config.ansible.playbook
       ConfigError.new(
         ["$config.ansible.disabled", "$config.git.org", "$config.ansible.playbook"], # options concerned
-        "bool | string<git-username> | string<playbook-name>", # suggest for option
+        "bool | string<git-username> | string<playbook-name>", # suggestion for each option
         'missing'
       )
       return false

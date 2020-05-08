@@ -15,7 +15,6 @@ class Provider < Component
   def pvd_virtualbox
     $vagrant.vm.provider 'virtualbox' do |vb|
       $config.provider.opts.each do |name, param|
-        # TODO if param is list loop it
         vb.customize ['modifyvm', :id, "--#{name}", param]
       end
     end

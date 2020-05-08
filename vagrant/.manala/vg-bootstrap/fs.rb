@@ -5,12 +5,13 @@ class Fs < Component
   PREFIX = 'fs_'
 
   def initialize()
+    @provisioned = File.exist? "#{$__dir__}/.vagrant/machines/default/virtualbox/action_provision"
     super(PREFIX)
     requirements
     @opts = $config.fs.opts
     @host = $config.paths.host
     @guest = $config.paths.guest
-    self.send(@PREFIX+$config.fs.type)
+    @provisioned ? self.send(@PREFIX+$config.fs.type) : nil
     provision_trigger
   end
 
@@ -31,7 +32,7 @@ class Fs < Component
         mount_options: ['rw','tcp','fsc','noatime','rsize=8192','wsize=8192','noacl','actimeo=2'],
         linux__nfs_options: ['rw','no_subtree_check','all_squash','async'],
         disabled: @opts.disabled
-      $vagrant.bindfs.bind_folder @guest, @guest
+      $vagrant.bindfs.bind_folder @guest, @guest, after: :provision
     else
       # linux nfs 4 server
       $vagrant.vm.synced_folder @host, @guest, 
@@ -44,9 +45,14 @@ class Fs < Component
   end
 
   def fs_smb
+    smb_user_pass = []
+    @opts.smb_user ? smb_user_pass.push("username="+@opts.smb_user) : nil
+    @opts.smb_password ? smb_user_pass.push("password="+@opts.smb_password) : nil
     $vagrant.vm.synced_folder @host, @guest, 
       type: 'smb',
-      mount_options: ["vers=2.0"],
+      smb_username: @opts.smb_user,
+      smb_password: @opts.smb_password, 
+      mount_options: ["vers=2.0"] + smb_user_pass,
       disabled: @opts.disabled
   end
 
@@ -56,7 +62,7 @@ class Fs < Component
 
   def provision_trigger
     # reload shared folder after provision
-    if File.exist? $__dir__ + "/.vagrant/machines/default/virtualbox/action_provision"
+    if !@provisioned
       $vagrant.trigger.after :provision do |t|
         t.info = "Reboot after provisioning"
         t.run = { :inline => "vagrant reload" }
@@ -74,10 +80,9 @@ class Fs < Component
     end
 
     # NFS checks
-    nfs = $config.fs.type == 'nfs'
-    if nfs 
+    if $config.fs.type == 'nfs'
       if Vagrant::Util::Platform.windows?
-        raise "NFS won't going to work with windows hosts (try WSL)"
+        raise ConfigError.new("NFS won't going to work with windows hosts (try WSL)")
       end
       
       Vagrant::Util::Platform.linux? ? system('apt-get install nfs-kernel-server nfs-common') : nil
@@ -85,7 +90,8 @@ class Fs < Component
 		  if Vagrant::Util::Platform.darwin? && !Vagrant.has_plugin?('vagrant-bindfs')
         system('vagrant plugin install vagrant-bindfs')
       end
-    end
+      
+    # SMB checks
   end
 # end Class Fs
 end
