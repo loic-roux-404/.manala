@@ -1,24 +1,21 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-class Fs < Component  
-  PREFIX = 'fs_'
+# Fs Shared folders component
+class Fs < Component
   ACTION_PROVISION ='.vagrant/machines/default/virtualbox/action_provision'
 
   def initialize(cnf, paths)
     @provisioned = File.exist? "#{$__dir__}/#{ACTION_PROVISION}"
     @host = paths.host
     @guest = paths.guest
-    
-    super(PREFIX)
-    @provisioned ? self.send(@PREFIX+@cnf.type) : provision_trigger
+
+    super(cnf)
+    @provisioned ? self.dispatch(cnf.type) : provision_trigger
   end
 
   def fs_rsync
     $vagrant.vm.synced_folder @host, @guest, 
       disabled: @cnf.opts.disabled, 
-      type: 'rsync', 
-      rsync__auto: @cnf.opts.auto,
+      type: :rsync, 
+      rsync__auto: @cnf.opts.rsync_auto,
       rsync__args: ["--archive", "--delete", "--no-owner", "--no-group","-q", "-W"],
       rsync__exclude: @cnf.opts.ignored
   end
@@ -56,8 +53,8 @@ class Fs < Component
       disabled: @cnf.opts.disabled
   end
 
-  def fs_vbox
-    $vagrant.vm.synced_folder @host, @guest, disabled: @cnf.opts.disabled
+  def fs_vbox(force_disable = false)
+    $vagrant.vm.synced_folder @host, @guest, disabled: force_disable || @cnf.opts.disabled
   end
 
   def provision_trigger
@@ -72,9 +69,12 @@ class Fs < Component
     if !self.is_valid_type(@cnf.type)
       raise ConfigError.new(
         ["config.fs.type"], # options concerned
-        self.rm_prefix("\n - "), # suggest option
+        self.type_list_str("\n - "), # suggest option
         'missing'
       )
+    end
+    if @cnf.type != 'vbox'
+      fs_vbox(true)
     end
 
     # NFS checks

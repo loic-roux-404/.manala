@@ -1,17 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require_relative '.manala/vg-bootstrap/start'
+require_relative '.manala/vg-facade/facade'
 
-begin
-    File.read(__dir__+'/config.json') 
-rescue
-    puts "Creating missing config"
-    CONFIG = File.open('config.json', 'w+')
-    CONFIG.puts File.read('.manala/vg-bootstrap/default.json')
-    CONFIG.close
-end
-
-Vagrant.configure("2") do |vagrant|
-  VagrantBootstrap.new(File.read(__dir__+'/config.json'), vagrant, __dir__)
+Vagrant.configure('2') do |vagrant|
+  Facade.new(vagrant, __dir__)
 end

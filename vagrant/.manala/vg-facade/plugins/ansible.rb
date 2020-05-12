@@ -1,17 +1,15 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
+# Ansible provisioner component
 class Ansible < Component
   PREFIX = 'ans_'
   PLAYBOOK_PATH = "~/.ansible"
   
   def initialize(cnf, git)
-    super(cnf, PREFIX)
+    super(cnf)
     @git = git
 
     if @valid
       parse_config
-      self.send(PREFIX+@cnf.type)
+      self.dispatch(@cnf.type)
     end
   end
 
@@ -64,7 +62,7 @@ class Ansible < Component
     if !self.is_valid_type(@cnf.type)
       raise ConfigError.new(
         ['ansible.type'], # options concerned
-        self.rm_prefix("\n - "), # suggest for valid process of this component
+        self.type_list_str("\n - "), # suggest for valid process of this component
         'missing'
       )
     end

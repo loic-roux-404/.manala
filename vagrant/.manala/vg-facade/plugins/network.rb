@@ -1,19 +1,19 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
+# Network settings component
 class Network < Component
-  PREFIX = 'network_'
+
   def initialize(cnf, domain)
     @domain = domain
-    super(cnf,PREFIX)
-    self.send(PREFIX+@cnf.type)
+    super(cnf)
+
+    self.dispatch(cnf.type)
     redirect_ports
-    @cnf.dns ? dns : nil
+    cnf.dns ? dns : nil
     @ssl ? ssl : nil
   end
 
   def network_public
-    $vagrant.vm.network :private_network, ip: @cnf.ip
+    network_private
+    # Automatic interfaces
     preferred_interfaces = ['eth0.*', 'eth\d.*', 'enp0s.*', 'enp\ds.*', 'en0.*', 'en\d.*']
     host_interfaces = %x( VBoxManage list bridgedifs | grep ^Name ).gsub(/Name:\s+/, '').split("\n")
     network_interface_to_use = preferred_interfaces.map{ |pi| 
@@ -25,7 +25,11 @@ class Network < Component
   end 
 
   def network_private
-    $vagrant.vm.network :private_network, ip: @cnf.ip, dhcp: @cnf.dhcp
+    if (!@cnf.ip)
+      $vagrant.vm.network :private_network, type: 'dhcp'
+    else
+      $vagrant.vm.network :private_network, ip: @cnf.ip
+    end
   end
 
   def dns
@@ -43,6 +47,7 @@ class Network < Component
     end
   end
 
+  # Fix routing bad default gateway
   def routing
     if Vagrant::Util::Platform.darwin? 
       @gateway = `route -n get default | grep 'gateway' | awk '{print $2}'`.delete("\n")
@@ -79,11 +84,10 @@ class Network < Component
   end
 
   def requirements
-    p @cnf.type
     if !self.is_valid_type(@cnf.type)
       raise ConfigError.new(
         ["network.type"], # options concerned
-        self.rm_prefix("\n - "), # suggest for option
+        self.type_list_str("\n - "), # suggest for option
         'missing'
       )
     end

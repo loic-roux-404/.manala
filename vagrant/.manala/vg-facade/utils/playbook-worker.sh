@@ -10,6 +10,7 @@
 #   $3 : <custom sub playbook> Example: "database" (without the .yml)
 # ==========
 # TODO: check function python3 / ansible
+# TOTEST
 
 run_playbook(){
     PLAYBOOK=$2 || "site.yml"

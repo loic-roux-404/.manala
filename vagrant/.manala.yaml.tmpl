@@ -21,7 +21,6 @@ vagrant:
     network:
         ip: {{ .Vars.vagrant.network.ip | toYaml }}
         type: {{ .Vars.vagrant.network.type | toYaml }}
-        dhcp: {{ .Vars.vagrant.network.dhcp | toYaml }}
         dns: {{ .Vars.vagrant.network.dns | toYaml }}
         ports: {{ .Vars.vagrant.network.ports | toYaml }}
         ssl:
@@ -40,7 +39,7 @@ vagrant:
     fs: 
         type: {{ .Vars.vagrant.fs.type | toYaml }}
         opts: 
-            auto: {{ .Vars.vagrant.fs.opts.auto | toYaml }}
+            rsync_auto: {{ .Vars.vagrant.fs.opts.rsync_auto | toYaml }}
             disabled: {{ .Vars.vagrant.fs.opts.disabled | toYaml }}
             smb_username: {{ .Vars.vagrant.fs.opts.smb_username | toYaml }}
             smb_password : {{ .Vars.vagrant.fs.opts.smb_password | toYaml }}
@@ -49,6 +48,5 @@ vagrant:
 
     provider:
         type: {{ .Vars.vagrant.provider.type | toYaml }}
-        opts: 
+        opts:
             {{ .Vars.vagrant.provider.opts | toYaml | nindent 12 }}
-

@@ -1,6 +1,4 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
+# Base box init component
 class Base < Component
 	DEFAULT_BOX = "loic-roux-404/deb64-buster"
 
@@ -8,12 +6,11 @@ class Base < Component
 		@UPDATE_VBGUEST = ENV['VBGUEST_UPDATE'] || cnf.vb_guest_update
 		@UPDATE_BOX = ENV['BOX_UPDATE'] || cnf.box_update
 		super(cnf)
-
-		box
-		ssh
+		
+		self.dispatch_all
 	end
 
-	def box()
+	def base_box()
 		$vagrant.vm.hostname = @cnf.domain
 		$vagrant.vm.box = @cnf.box || DEFAULT_BOX
 		@cnf.box_version ? $vagrant.vm.box_version = @cnf.box_version : nil
@@ -21,7 +18,7 @@ class Base < Component
 		$vagrant.vbguest.auto_update = @UPDATE_VBGUEST
 	end
 
-	def ssh()
+	def base_ssh()
 		id_rsa_path        = File.join(Dir.home, ".ssh", "id_rsa")
 		id_rsa_ssh_key     = File.read(id_rsa_path)
 		id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
