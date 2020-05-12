@@ -17,16 +17,16 @@ class Facade
   }
 
   # Passing to each module vagrant object and part of the config struct
-  def initialize(vagrant, dir)
+  def initialize(vagrant, dir, manala = true)
     $vagrant = vagrant # Vagrant object
-    $__dir__ = dir
+    $__dir__ = dir # Keep Vagrantfile dir
     c = Config.new
 
     PLUGINS_CONFIGS.each do |plugin, cnf|
       require_relative "plugins/#{plugin.downcase}"
-      required_cnfs = [c.get(plugin.downcase)]
-      cnf ? cnf.each { |param| required_cnfs.push(c.get(param)) } : nil
-      Object.const_get(plugin).new(*required_cnfs) # Launch plugin with their associated config
+      configs_arg = [c.get(plugin.downcase)]
+      cnf ? cnf.each { |param| configs_arg.push(c.get(param)) } : nil
+      Object.const_get(plugin).new(*configs_arg)
     end
   end
   # end class VagrantBootstrap
