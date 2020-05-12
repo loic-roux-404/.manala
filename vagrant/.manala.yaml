@@ -1,7 +1,8 @@
 manala:
     description: Vagrant
     sync:
-        - ./
+        - Vagrantfile
+        - .manala
 vagrant:
     # @schema {"type": "string", "minLength": 3}
     # @option {"label": "Project name (use git repo name)"}
