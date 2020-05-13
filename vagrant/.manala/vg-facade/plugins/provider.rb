@@ -12,8 +12,11 @@ class Provider < Component
   # create virtualbox config with VboxManage settings
   def provider_virtualbox
     $vagrant.vm.provider 'virtualbox' do |vb|
-      vb.customize ['modifyvm', :id, "--name", @name]
+      vb.customize ['modifyvm', :id, "--name", @name]    
       @cnf.opts.each_pair do |param_id, value|
+        # Convert booleans to virtualbox modifyvm params
+        value = value.to_s != 'false' ? value : "off"
+        value = value.to_s != 'true' ? value : "on"
         vb.customize ['modifyvm', :id, "--#{param_id}", value]
       end
     end
