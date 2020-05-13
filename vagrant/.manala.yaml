@@ -4,6 +4,8 @@ manala:
         - Vagrantfile
         - .manala
         - .manala.yaml.tmpl
+
+# generic vagrant config
 vagrant:
     # @schema {"type": "string", "minLength": 3}
     # @option {"label": "Project name (use git repo name)"}
@@ -89,9 +91,9 @@ vagrant:
         opts:
             # @schema {"type": "boolean"}
             rsync_auto: true
-            # @schema {"enum": [true, false]}
+            # @schema {"enum": [false, true]}
             # @option {"label": "Disable shared folder"}
-            disabled: true
+            disabled: false
             # @schema {"type": ["null","string"]}
             smb_username: ~
             # @schema {"type": ["null","string"]}

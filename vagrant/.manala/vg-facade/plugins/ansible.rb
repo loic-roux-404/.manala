@@ -4,8 +4,8 @@ class Ansible < Component
   PLAYBOOK_PATH = "~/.ansible"
   
   def initialize(cnf, git)
-    super(cnf)
     @git = git
+    super(cnf)
 
     if @valid
       parse_config
@@ -13,7 +13,7 @@ class Ansible < Component
     end
   end
 
-  def ans_local(local = true)
+  def ansible_local(local = true)
     # Put playbook in guest
     if local 
       $vagrant.vm.provision :shell, inline: @git_clone
@@ -27,12 +27,12 @@ class Ansible < Component
     end
   end
 
-  def ans_classic
+  def ansible_classic
     system(git_clone)
     self.ans_local(false)
   end
 
-  def ans_worker
+  def ansible_worker
     $vagrant.vm.provision :shell,
       run: File.join(__dir__, '../', 'playbook-worker.sh'),
       args: "#{@git_url} #{@cnf.sub_playbook} #{@cnf.inventory}"
@@ -50,12 +50,7 @@ class Ansible < Component
   end
 
   def requirements
-    if !@cnf.disabled || !@git.org || !@cnf.playbook
-      ConfigError.new(
-        ['ansible.disabled', 'git.org', 'ansible.playbook'], # options concerned
-        'bool | string<git-username> | string<playbook-name>', # suggestion for each option
-        'missing'
-      )
+    if @cnf.disabled || !@git.org || !@cnf.playbook
       return false
     end
 

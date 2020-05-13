@@ -1,6 +1,6 @@
 manala:
     repository: /Users/loic/Ops/manala-recipes
-    recipe: vagrant
+    recipe: {{ default "vagrant" .Vars.recipe_save }}
 
 vagrant: 
     project_name: {{ .Vars.vagrant.project_name | toYaml }}

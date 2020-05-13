@@ -25,7 +25,7 @@ class Network < Component
   end 
 
   def network_private
-    if (!@cnf.ip)
+    if !@cnf.ip
       $vagrant.vm.network :private_network, type: 'dhcp'
     else
       $vagrant.vm.network :private_network, ip: @cnf.ip
