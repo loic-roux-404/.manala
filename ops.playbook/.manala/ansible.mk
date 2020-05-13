@@ -2,7 +2,7 @@
 SHELL = /bin/bash
 # read setting from config
 CONFIG=config.json
-config = $(shell yq -r ".$(1)" config.yml || false)
+config = $(shell yq r config.yaml $(1) || false)
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 IP?=$(call config,network.ip)
