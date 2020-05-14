@@ -1,5 +1,5 @@
 manala:
-    repository: /Users/loic/Ops/manala-recipes
+    repository: {{ default "/Users/loic/Ops/manala-recipes" .Vars.repository_save }}
     recipe: {{ default "vagrant" .Vars.recipe_save }}
 
 vagrant: 

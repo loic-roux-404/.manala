@@ -5,6 +5,8 @@ manala:
         - .manala
         - .manala.yaml.tmpl
 
+# Save variable (manala delete original config vars under manala key)
+repository_save: git@github.com:loic-roux-404/manala-recipes.git
 # generic vagrant config
 vagrant:
     # @schema {"type": "string", "minLength": 3}
@@ -107,6 +109,6 @@ vagrant:
         type: "virtualbox"
         # @schema {"type": "object", "additionalProperties": { "type": "string" }}
         opts:
-            natdnshostresolver1: "on"
+            natdnshostresolver1: 'on'
             cpus: "2"
             memory: "1024"
