@@ -122,4 +122,3 @@ vagrant:
             natdnshostresolver1: "on"
             cpus: "2"
             memory: "1024"
-    
