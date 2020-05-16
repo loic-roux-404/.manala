@@ -49,7 +49,8 @@ class Provider < Component
   end
 
   def non_supported
-    @cnf.type+" isn't supported for now"
+    puts @cnf.type+" isn't supported for now"
+    exit
   end
 # end Class Provider#
 end

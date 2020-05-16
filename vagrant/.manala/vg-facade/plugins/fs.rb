@@ -92,7 +92,7 @@ class Fs < Component
       
     # SMB checks
     if @cnf.type == 'smb' && !Vagrant::Util::Platform.windows?
-      raise ConfigError.new("SMB is for now only available for Windows")
+      raise ConfigError.new("SMB is for now only available on Windows")
     end
   end
 # end Class Fs
