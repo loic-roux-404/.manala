@@ -5,6 +5,8 @@ This project is used to share reccurrent files between multiple projects
 ## TODO
 
 - `auto` option for ip
+- compare config.yaml, append missing conf if manala update it
+- paramiko mode for ansible (link with packer)
 
 ## Doc
 
@@ -61,7 +63,7 @@ network:
   type: private # Available public private (check vagrant doc)
   dns: true
   # Specify object of type for each port
-  #
+  # {
   #    guest: 80 # (required)
   #    host: 8080 # (required)
   #    auto_correct: true # (optional)

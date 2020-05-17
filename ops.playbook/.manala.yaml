@@ -1,22 +1,24 @@
 manala:
   description: Ansible
   sync:
-    - ../vagrant/.manala .manala
+    - ../vagrant/.manala/ .manala/
     - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../vagrant/Vagrantfile Vagrantfile
     - ansible.cfg.tmpl
     - .manala/ansible.mk
+    - .vscode/
     - .gitignore.tmpl
+    - .editorconfig
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: ops.playbook
 repository_save: git@github.com:loic-roux-404/manala-recipes.git
 
-# Configure ansible boilerplate
+# Configure ansible boilerplate (cfg / role dev)
 ansible:
   # @schema {"type": "string"}
   # @option {"label": "Default inventory"}
-  default_inventory: ""
+  inventory: ""
   # @schema {"enum": [false, true]}
   # @option {"label": "Keep roles in project"}
   internal_roles: False

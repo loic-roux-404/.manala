@@ -39,11 +39,11 @@ class Network < Component
 
   def redirect_ports
     @cnf.ports.each do |port|
-      $vagrant.vm.network :forwarded_port, id: port.id || nil,
+      $vagrant.vm.network :forwarded_port, id: defined?(port.id) ? port.id : nil,
         guest: port.guest, 
         host: port.host,
-        auto_correct: port.auto_correct || true,
-        disabled: port.disabled || false
+        auto_correct: defined?(port.auto_correct) ? port.auto_correct : true,
+        disabled: defined?(port.disabled ) ? port.disabled : false
     end
   end
 
