@@ -2,15 +2,12 @@
   "yaml.format.enable": true,
   "files.associations": {
     "Vagrantfile": "ruby",
-    ".travis.yml": "yaml",
-    ".appveyor.yml": "yaml",
+    "[.appveyor|.travis].yml": "yaml",
     "*.yml": "ansible-advanced",
     ".yaml": "yaml",
-    "/**/inventories/**": "yaml",
+    "/**/hosts": "ini",
     "/**/group_vars/**": "yaml",
-    "/**/inventory/**": "yaml",
-    "/**/inventory/hosts": "ini",
-    "secret": "txt",
+    "/**/invento**/secrets": "txt",
     "*.tmpl": "gotemplate"
   },
   "[yaml|goyaml|ansible|ansible-advanced]": {

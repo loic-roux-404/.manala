@@ -6,7 +6,7 @@ class Base < Component
 		@UPDATE_VBGUEST = ENV['VBGUEST_UPDATE'] || cnf.vb_guest_update
 		@UPDATE_BOX = ENV['BOX_UPDATE'] || cnf.box_update
 		super(cnf)
-		
+
 		self.dispatch_all
 	end
 
@@ -14,8 +14,8 @@ class Base < Component
 		$vagrant.vm.hostname = @cnf.domain
 		$vagrant.vm.box = @cnf.box || DEFAULT_BOX
 		@cnf.box_version ? $vagrant.vm.box_version = @cnf.box_version : nil
-		$vagrant.vm.box_check_update = @UPDATE_BOX
-		$vagrant.vbguest.auto_update = @UPDATE_VBGUEST
+    	$vagrant.vm.box_check_update = @UPDATE_BOX
+    	@UPDATE_VBGUEST ? $vagrant.vbguest.auto_update = @UPDATE_VBGUEST : nil
 	end
 
 	def base_ssh()
@@ -29,9 +29,9 @@ class Base < Component
 		$vagrant.ssh.private_key_path = [id_rsa_path, insecure_key_path]
 		# Add personal key into vm to assure faster ssh auth
 		ssh_path = "/home/vagrant/.ssh"
-		$vagrant.vm.provision :shell, 
+		$vagrant.vm.provision :shell,
 			inline: "echo '#{id_rsa_ssh_key}' > #{ssh_path}/id_rsa && chmod 600 #{ssh_path}/id_rsa"
-		$vagrant.vm.provision :shell, 
+		$vagrant.vm.provision :shell,
 			inline: "echo '#{id_rsa_ssh_key_pub}' > #{ssh_path}/authorized_keys && chmod 600 #{ssh_path}/authorized_keys"
 	end
 

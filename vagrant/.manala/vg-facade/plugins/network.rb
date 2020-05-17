@@ -99,6 +99,16 @@ class Network < Component
     if @cnf.ssl.path && @cnf.ssl.cert
       @ssl = true
     end
+
+    @cnf.ports.each do |port|
+      if !port.guest || !port.host
+        raise ConfigError.new(
+          ["network.ports.guest", "network.ports.host"],
+          "Missing forward port or port destination",
+          'missing'
+        )
+      end
+    end
   end
  # end class 
 end

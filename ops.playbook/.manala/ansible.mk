@@ -12,14 +12,12 @@ OPTIONS:= $(foreach var, $(ANSIBLE_VARS), -e $(subst ",,$(var)))
 # Environment variables of ansible
 ANSIBLE_STDOUT_CALLBACK:=default
 # Default Inventory
-inv:=$(call config,ansible.inventory)
-ifeq ($(strip $(inv)),)
-INVENTORY?= -i $(call config,ansible.inventory)
-endif
+INVENTORY?= $(call config,ansible.inventory)
+
 # Build command
-playbook_exe?= ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
+playbook_exe= ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ansible-playbook $(OPTIONS) \
-	$(INVENTORY) $*.yml $(ARG)
+	$(if $(INVENTORY), -i $(INVENTORY),) $*.yml $(ARG)
 # Prompt exe
 prompt?=echo -ne "\x1b[33m $(1) Sure ? [y/N]\x1b[m" && read ans && [ $${ans:-N} = y ]
 
@@ -45,9 +43,6 @@ install:
 	$(foreach var,$(shell ls -d *roles/role*/requirements.txt),pip install -r $(var);)
 	$(foreach var,$(shell ls -d *.ext_roles/role*/requirements.txt),pip install -r $(var);)
 
-running:
-	@echo "RUNNING $(DEBUG): \n"${playbook_exe}
-
 # ==============================
 # Warning run target is for prod
 # ==============================
@@ -63,12 +58,13 @@ running:
 # Debugging zone on next lines
 # =============================
 
-%.debug:
+debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
 	$(eval OPTIONS+=\
 		   -e ansible_host=$(DOMAIN)\
 		   -e ansible_port=2222\
 		   -e ansible_user=vagrant\
 	)
-	@$(MAKE) running DEBUG='IN DEBUG MODE '
-	@$(call playbook_exe)
+
+%.debug: debug-deco
+	$(call playbook_exe)

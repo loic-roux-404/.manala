@@ -1,7 +1,6 @@
 # Ansible provisioner component
 class Ansible < Component
-  PREFIX = 'ans_'
-  PLAYBOOK_PATH = "~/.ansible"
+  PLAYBOOK_PATH = "$HOME/.ansible"
   
   def initialize(cnf, git)
     @git = git
