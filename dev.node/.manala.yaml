@@ -2,3 +2,4 @@ manala:
     description: Node js
     sync:
       - .manala
+      - .editorconfig
