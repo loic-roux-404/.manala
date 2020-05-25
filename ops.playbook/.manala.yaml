@@ -12,7 +12,7 @@ manala:
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: ops.playbook
-repository_save: git@github.com:loic-roux-404/manala-recipes.git
+repository_save: http://github.com/loic-roux-404/manala-recipes.git
 
 # Configure ansible boilerplate (cfg / role dev)
 ansible:

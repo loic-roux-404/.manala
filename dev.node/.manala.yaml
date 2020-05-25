@@ -2,5 +2,7 @@ manala:
     description: Node js
     sync:
       - .manala
+      - .vscode/extensions.json
+      - .vscode/settings.json
       - .editorconfig
-      - .vscode
+

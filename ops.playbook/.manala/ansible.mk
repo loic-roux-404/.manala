@@ -62,7 +62,6 @@ debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
 	$(eval OPTIONS+=\
 		   -e ansible_host=$(DOMAIN)\
-		   -e ansible_port=2222\
 		   -e ansible_user=vagrant\
 	)
 

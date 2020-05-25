@@ -3,4 +3,5 @@ manala:
     sync:
       - .manala
       - .editorconfig
-      - .vscode
+      - ".vscode/extensions.json"
+      - ".vscode/settings.json"
