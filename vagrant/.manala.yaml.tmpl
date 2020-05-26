@@ -1,12 +1,12 @@
 manala:
-    repository: {{ default "https://github.com/loic-roux-404/manala-recipes.git" .Vars.repository_save }}
-    recipe: {{ default "vagrant" .Vars.recipe_save }}
+  repository: {{ default "https://github.com/loic-roux-404/manala-recipes.git" .Vars.repository_save }}
+  recipe: {{ default "vagrant" .Vars.recipe_save }}
 {{"\r"}}
 {{- if .Vars.repository_save }}
 repository_save: {{ .Vars.repository_save | toYaml }}
 {{- end}}
 {{"\r"}}
-{{- if .Vars.ansible }}
+{{- if index .Vars "ansible" }}
 ansible: {{ .Vars.ansible | toYaml | nindent 2 }}
 {{- end}}
 
