@@ -10,6 +10,10 @@ sudo_user               = root
 remote_user             = root
 transport               = ssh
 remote_tmp              = /tmp/ansible-$USER
+# Custom config from (added by .manala.yaml)
+{{- range $key, $cfg := .Vars.ansible.cfg_lines }}
+{{ $key }} = {{ $cfg }}
+{{- end }}
 
 [privilege_escalation]
 become                  = True

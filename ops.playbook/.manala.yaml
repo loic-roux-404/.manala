@@ -22,6 +22,14 @@ ansible:
   # @schema {"enum": [false, true]}
   # @option {"label": "Keep roles in project"}
   internal_roles: False
+  # @schema {
+  #     "definitions": {
+  #         "cfg_line": {"type": "object", "$id": "#cfg_line",
+  #             "additionalProperties": true
+  #          }
+  #      }
+  #  }
+  cfg_lines: {}
 
 # This vagrant schema in generic for playbook development
 vagrant:
