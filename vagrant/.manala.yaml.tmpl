@@ -1,0 +1,25 @@
+manala:
+  repository: {{ default "https://github.com/loic-roux-404/manala-recipes.git" .Vars.repository_save }}
+  recipe: {{ default "vagrant" .Vars.recipe_save }}
+{{"\r"}}
+{{- if .Vars.repository_save }}
+repository_save: {{ .Vars.repository_save | toYaml }}
+{{- end}}
+{{"\r"}}
+{{- if index .Vars "ansible" }}
+ansible: {{ .Vars.ansible | toYaml | nindent 2 }}
+{{- end}}
+
+vagrant: 
+  project_name: {{ .Vars.vagrant.project_name | toYaml }}
+  box: {{ .Vars.vagrant.box | toYaml }}
+  box_update: {{ .Vars.vagrant.box_update | toYaml }}
+  box_version: {{ .Vars.vagrant.box_version | toYaml }}
+  vb_guest_update: {{ .Vars.vagrant.vb_guest_update | toYaml }}
+  domain: {{ .Vars.vagrant.domain | toYaml }}
+  git: {{ .Vars.vagrant.git | toYaml | nindent 4 }}
+  paths: {{ .Vars.vagrant.paths | toYaml | nindent 4 }}
+  network: {{ .Vars.vagrant.network | toYaml | nindent 4 }} 
+  ansible: {{ .Vars.vagrant.ansible | toYaml | nindent 4 }}
+  fs: {{ .Vars.vagrant.fs | toYaml | nindent 4 }}
+  provider:  {{ .Vars.vagrant.provider | toYaml | nindent 4 }}

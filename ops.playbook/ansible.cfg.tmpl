@@ -1,15 +1,19 @@
 [defaults]
 interpreter_python      = /usr/bin/python3
 # default inventory
-{{- if .Vars.ansible.default_inventory }}
-hostfile                = ./inventories/{{ .Vars.ansible.default_inventory }}
-inventory               = ./inventories/{{ .Vars.ansible.default_inventory  }}
+{{- if .Vars.ansible.inventory }}
+inventory               = {{ .Vars.ansible.inventory  }}
 {{- end }}
-# don't forget to delete role folder you wan't to debug in ./.ext_roles/
+# Delete roles folder for debugging in ./.ext_roles/ and keep in roles/
 roles_path              = ./.ext_roles:./roles
 sudo_user               = root
 remote_user             = root
 transport               = ssh
+remote_tmp              = /tmp/ansible-$USER
+# Custom config from (added by .manala.yaml)
+{{- range $key, $cfg := .Vars.ansible.cfg_lines }}
+{{ $key }} = {{ $cfg }}
+{{- end }}
 
 [privilege_escalation]
 become                  = True

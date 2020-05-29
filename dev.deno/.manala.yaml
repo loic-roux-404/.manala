@@ -1,0 +1,7 @@
+manala:
+    description: Deno
+    sync:
+      #- .manala
+      - .editorconfig
+      #- ".vscode/extensions.json"
+      #- ".vscode/settings.json"

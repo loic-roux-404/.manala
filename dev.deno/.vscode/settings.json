@@ -1,0 +1,20 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "eslint.packageManager": "yarn",
+  "eslint.workingDirectories": [
+    "./",
+  ],
+  "javascript.validate.enable": false,
+  "prettier.packageManager": "yarn",
+  "telemetry.enableCrashReporter": false,
+  "telemetry.enableTelemetry": false,
+  "path-intellisense.extensionOnImport": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

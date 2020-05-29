@@ -1,20 +1,19 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
+# Network settings component
 class Network < Component
-  SUFFIX = '_network'
-  def initialize
-    super(SUFFIX)
-    requirements
-    # dispatch
-    self.send("#{$config.network.type}_network")
+
+  def initialize(cnf, domain)
+    @domain = domain
+    super(cnf)
+
+    self.dispatch(cnf.type)
     redirect_ports
-    $config.network.dns ? dns : nil
+    cnf.dns ? dns : nil
     @ssl ? ssl : nil
   end
 
-  def public_network()
-    $vagrant.vm.network :private_network, ip: $config.network.ip
+  def network_public
+    network_private
+    # Automatic interfaces
     preferred_interfaces = ['eth0.*', 'eth\d.*', 'enp0s.*', 'enp\ds.*', 'en0.*', 'en\d.*']
     host_interfaces = %x( VBoxManage list bridgedifs | grep ^Name ).gsub(/Name:\s+/, '').split("\n")
     network_interface_to_use = preferred_interfaces.map{ |pi| 
@@ -25,25 +24,30 @@ class Network < Component
     routing
   end 
 
-  def private_network()
-    $vagrant.vm.network :private_network, ip: $config.network.ip
+  def network_private
+    if !@cnf.ip
+      $vagrant.vm.network :private_network, type: 'dhcp'
+    else
+      $vagrant.vm.network :private_network, ip: @cnf.ip
+    end
   end
 
   def dns
     $vagrant.landrush.enabled = true
-    $vagrant.landrush.tld = $config.domain
+    $vagrant.landrush.tld = @domain
   end
 
-  def redirect_ports()
-    $config.network.ports.each do |port|
-      $vagrant.vm.network :forwarded_port, id: port.id || guid,
+  def redirect_ports
+    @cnf.ports.each do |port|
+      $vagrant.vm.network :forwarded_port, id: defined?(port.id) ? port.id : nil,
         guest: port.guest, 
         host: port.host,
-        auto_correct: port.auto_correct || true,
-        disabled: port.disabled || false
+        auto_correct: defined?(port.auto_correct) ? port.auto_correct : true,
+        disabled: defined?(port.disabled ) ? port.disabled : false
     end
   end
 
+  # Fix routing bad default gateway
   def routing
     if Vagrant::Util::Platform.darwin? 
       @gateway = `route -n get default | grep 'gateway' | awk '{print $2}'`.delete("\n")
@@ -54,20 +58,20 @@ class Network < Component
 
     $vagrant.vm.provision :shell, 
       run: "always", 
-      path: "#{__dir__}/utils/routing.py", 
+      path: File.join(__dir__, "../", "/utils/routing.py"),
       args: "#{@gateway}"
   end
 
   def ssl
-    # Not tested
-    cert = $config.network.ssl.cert
-    guest_path = $config.network.ssl.path
+    # TODO: Not tested
+    cert = @cnf.ssl.cert
     host_path = "#{$__dir__}/.vagrant/certs"
+    guest_path = @cnf.ssl.path
 
-    Dir.mkdir(cert_path) unless File.exists?(cert_path)
+    Dir.mkdir(host_path) unless File.exists?(host_path)
 
     $vagrant.trigger.after :up do |t|
-      t.run = { inline: "scp -P 22 vagrant@#{$config.domain}:#{guest_path}/#{cert} #{host_path}"}
+      t.run = { inline: "scp -P 22 vagrant@#{@domain}:#{guest_path}/#{cert} #{host_path}"}
 
       if Vagrant::Util::Platform.darwin? || Vagrant::Util::Platform.linux?
         t.run = { inline: 
@@ -80,20 +84,30 @@ class Network < Component
   end
 
   def requirements
-    if !self.is_valid_type($config.network.type, true)
+    if !self.is_valid_type(@cnf.type)
       raise ConfigError.new(
-        ["$config.network.type"], # options concerned
-        self.rm_prefix("\n - "), # suggest for option
+        ["network.type"], # options concerned
+        self.type_list_str("\n - "), # suggest for option
         'missing'
       )
     end
 
-    if $config.network.dns && !Vagrant.has_plugin?('landrush')
+    if @cnf.dns && !Vagrant.has_plugin?('landrush')
 			system('vagrant plugin install landrush')
     end
     
-    if $config.network.ssl.path && $config.network.ssl.cert
+    if @cnf.ssl.path && @cnf.ssl.cert
       @ssl = true
+    end
+
+    @cnf.ports.each do |port|
+      if !port.guest || !port.host
+        raise ConfigError.new(
+          ["network.ports.guest", "network.ports.host"],
+          "Missing forward port or port destination",
+          'missing'
+        )
+      end
     end
   end
  # end class 
