@@ -1,28 +1,34 @@
+SHELL:=/bin/bash
 # Deno config
 ENTRY_DIR:=src
 ENTRY:=app.ts
 IMPORT_MAP:=import-map.json
+BIN_DIR:=bin
+TEST_DIR:=$(ENTRY_DIR)/tests
+TS_CONFIG:=tsconfig.app.json
+DENO_VERSION:=1.1.2
+# base app env
+PORT?=8081
+DB_TYPE?=
 # Argument group for different usages
-ARGS:=\
-	  --allow-env\
-	  --allow-read\
+ARGS:= -A --config=$(TS_CONFIG) --unstable
+TEST_ARGS:=$(ARGS)
 
-NET:=$(ARGS)\
-	  --allow-net\
-	  --recompile
+EXE:=cd $(ENTRY_DIR) && deno
+DEBUG_EXE:=cd $(ENTRY_DIR) && denon
 
-FULL:=$(ARGS) $(NET)\
-	  --importmap=$(ENTRY_DIR)/$(IMPORT_MAP)\
-	  --allow-hrtime\
-	  --unstable\
-	  --config=tsconfig.json
+# Deployment (need to override these vars in Makefile)
+SSH_ADDRESS?=
+USER_DEPLOY?=
 
-BIN:=$(ENTRY_DIR)/bin
+# Git config
+ORG:=
+REPO:=
+GIT_URL:=https://github.com/$(ORG)/$(REPO).git
+GIT_DIR:=
 
-# Deployment (override this in Makefile)
-REMOTE_DIR_DEPLOY:=/var/www
-SSH_ADDRESS:=site.test
-USER_DEPLOY:=root
+# Command by ssh
+ssh=ssh $(USER_DEPLOY)@$(SSH_ADDRESS) $(1)
 
 .DEFAULT_GOAL := help
 .PRECIOUS: start debug
@@ -30,29 +36,36 @@ USER_DEPLOY:=root
 help:
 	@echo "[======== Deno Help ========]"
 	@echo "Usage: make start | debug"
+	@echo "Format: make lint"
+	@echo "Testing: make tests"
 	@$(MAKE) help_more || true
 
 # Run server
 start:
-	deno run $(NET) $(ENTRY_DIR)/$(ENTRY)
+	$(EXE) run $(ARGS) $(ENTRY)
+
+update:
+	$(EXE) cache --reload $(ARGS) $(ENTRY)
 
 full:
-	deno run $(FULL) $(ENTRY_DIR)/$(ENTRY)
-
-lint:
-	deno fmt
+	$(EXE) run $(ARGS) $(ENTRY)
 
 # Start with debugger
 debug:
-	$(eval ARGS+=--debug)
-	$(MAKE) start
-	@echo 'Started in Debug mode : '
+	@echo 'Start in Debug mode : '
 	@echo 'Open chrome://inspect/#devices'
+	$(DEBUG_EXE) run $(ARGS) $(ENTRY) --inspect-brk
+
+lint:
+	deno fmt $(ENTRY_DIR)
+
+install:
+	curl -fsSL https://deno.land/x/install/install.sh | sh -s v$(DENO_VERSION)
+	deno install --allow-read --allow-run --allow-write -f --unstable https://deno.land/x/denon/denon.ts
+	yarn add global -D typescript-deno-plugin typescript
 
 deploy:
-	ssh $(USER_DEPLOY)@$(SSH_ADDRESS) "cd $(REMOTE_DIR_DEPLOY);\
-	/bin/bash -c '\
-	git fetch --all && git reset --hard upstream/master;'"
+	@echo "TODO deploy"
 
 clear:
 	rm -rf *.log

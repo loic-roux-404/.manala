@@ -1,0 +1,33 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    env:
+      CI: true
+      TARGET: /home/${{ secrets.USER_DEPLOY }}/${{ github.event.repository.name }}
+      # Deno vars
+      DENO_INSTALL: "/Users/runner/.local"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denolib/setup-deno@master
+        with:
+          deno-version: v1.x
+
+      - name: Push to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_ADDRESS }}
+          username: ${{ secrets.USER_DEPLOY }}
+          key: ${{ secrets.SSH_AUTH_KEY }}
+          script: |
+            cd ${{ env.TARGET }} && git fetch origin ${{ github.ref }}
+            git reset --hard origin/${{ github.ref }}
+            echo '${{ secrets.ENV_PROD }}' >src/.env && chmod 400 src/.env
+            sudo make deploy

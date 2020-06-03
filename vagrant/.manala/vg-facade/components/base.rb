@@ -28,7 +28,8 @@ class Base < Component
 		$vagrant.ssh.forward_agent = true
 		$vagrant.ssh.private_key_path = [id_rsa_path, insecure_key_path]
 		# Add personal key into vm to assure faster ssh auth
-		ssh_path = "/home/vagrant/.ssh"
+    ssh_path = "/home/vagrant/.ssh"
+    #fix_agent = "eval $(ssh-agent -s) && ssh-add"
     $vagrant.vm.provision :shell,
       privileged: false,
 			inline: "echo '#{id_rsa_ssh_key}' > #{ssh_path}/id_rsa && chmod 600 #{ssh_path}/id_rsa"
@@ -40,7 +41,9 @@ class Base < Component
 	def requirements()
 		if @UPDATE_VBGUEST && !Vagrant.has_plugin?('vagrant-vbguest')
 			system('vagrant plugin install vagrant-vbguest')
-		end
+    end
+    # Set @valid to true (component is ok)
+    return true
 	end
 # end Base class
 end

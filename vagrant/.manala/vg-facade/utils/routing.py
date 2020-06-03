@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ====================
-# Fix ip routing on modern distros 
+# Fix ip routing on modern distros
 import subprocess
 import sys
 

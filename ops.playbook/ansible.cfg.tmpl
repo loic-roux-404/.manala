@@ -9,8 +9,13 @@ roles_path              = ./.ext_roles:./roles
 sudo_user               = root
 remote_user             = root
 transport               = ssh
+host_key_checking       = False
 remote_tmp              = /tmp/ansible-$USER
-# Custom config from (added by .manala.yaml)
+{{- if .Vars.ansible.auto_tag }}
+callback_plugins        = plugins/callbacks
+callback_whitelist      = auto_tags
+{{- end }}
+# Custom configs (in .manala.yaml)
 {{- range $key, $cfg := .Vars.ansible.cfg_lines }}
 {{ $key }} = {{ $cfg }}
 {{- end }}

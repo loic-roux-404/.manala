@@ -1,0 +1,45 @@
+name: test
+
+on: [pull_request]
+
+jobs:
+  build:
+    env:
+      DENO_INSTALL: "/Users/runner/.local"
+      DB_TYPE: sqlite3
+    name: Ctt-server in ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        deno: [1.1.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denolib/setup-deno@master
+        with:
+          deno-version: v${{ matrix.deno }}
+
+      - name: Create date cache identifier
+        id: date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y_w%V")"
+        shell: bash
+
+      # - name: Tests E2E and units
+      #   run: |
+      #     make tests
+
+      - name: Deno format check
+        run: |
+          deno fmt --check
+
+      - name: Cache deno deps
+        uses: actions/cache@v2
+        id: deno-cache
+        with:
+          path: ${{ env.DENO_INSTALL }}
+          key: ${{ runner.os }}-deno
+          restore-keys: |
+            ${{ runner.os }}-deno-${{ steps.date.outputs.date }}
+

@@ -1,9 +1,8 @@
 manala:
-    description: Deno
+    description: Node js
     sync:
-      - .manala/
-      - .editorconfig
+      - .manala
       - .vscode/extensions.json
       - .vscode/settings.json
-      - .github/workflows/
+      - .editorconfig
       - ../.github/ .github/

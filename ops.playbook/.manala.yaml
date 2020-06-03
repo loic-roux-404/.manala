@@ -4,9 +4,11 @@ manala:
     - ../vagrant/.manala/ .manala/
     - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../vagrant/Vagrantfile Vagrantfile
+    - ../ops.docker/.manala/run.mk .manala/docker.mk
     - ansible.cfg.tmpl
     - .manala/ansible.mk
     - .vscode/
+    - plugins/callbacks/auto_tag.py
     - .gitignore.tmpl
     - .editorconfig
 
@@ -14,14 +16,14 @@ manala:
 recipe_save: ops.playbook
 repository_save: http://github.com/loic-roux-404/manala-recipes.git
 
-# Configure ansible boilerplate (cfg / role dev)
+# Configure ansible playbook boilerplate (cfg / role dev)
 ansible:
   # @schema {"type": "string"}
   # @option {"label": "Default inventory"}
   inventory: ""
   # @schema {"enum": [false, true]}
   # @option {"label": "Keep roles in project"}
-  internal_roles: False
+  internal_roles: false
   # @schema {
   #     "definitions": {
   #         "cfg_line": {"type": "object", "$id": "#cfg_line",
@@ -30,6 +32,8 @@ ansible:
   #      }
   #  }
   cfg_lines: {}
+  # @schema {"type": "boolean"}
+  auto_tag: true
 
 # This vagrant schema in generic for playbook development
 vagrant:
@@ -51,7 +55,7 @@ vagrant:
     # @schema {"type": "string"}
     org: "loic-roux-404"
     # @schema {"type": "string"}
-    provider: "https://github.com"
+    provider: github.com
 
   paths:
     # @schema {"type": "string" }
@@ -90,6 +94,8 @@ vagrant:
       cert: ~
       # @schema {"type": "string"}
       path: "/etc/ssl"
+    # @schema {"type": "boolean"}
+    fix_routing: true
 
   ansible:
     # @schema {"type": "boolean"}
@@ -97,14 +103,15 @@ vagrant:
     # @schema {"type": "string"}
     playbook: ""
     # @schema {"type": "string" }
+    playbook_version: master
+    # @schema {"type": "string" }
     inventory: ""
     # @schema {"enum": ["local", "classic", "worker"]}
     type: "local"
     # @schema {"type": "string"}
     sub_playbook: "site.yml"
     # @schema {"type": "object", "additionalProperties": true}
-    vars:
-      keyboard_mac: false
+    vars: {}
 
   fs:
     # @schema {"enum": ["rsync", "nfs", "smb", "vbox"]}
