@@ -1,7 +1,10 @@
 # Ansible provisioner component
 class Ansible < Component
   PLAYBOOK_PATH = "$HOME/.ansible"
-  
+  LOCAL = 'ansible_local'
+  CLASSIC = 'ansible'
+  DEFAULT_INVENTORY = 'inventory'
+
   def initialize(cnf, git)
     @git = git
     super(cnf)
@@ -13,16 +16,17 @@ class Ansible < Component
   end
 
   def ansible_local(local = true)
+    ansible_mode_id = local ? LOCAL : CLASSIC
     # Put playbook in guest
-    if local 
-      $vagrant.vm.provision :shell, inline: @git_clone
+    if local
+      $vagrant.vm.provision :shell, inline: @git_clone, privileged: false
     end
-    # Start ansible-playbook command  
+    # Start ansible-playbook command
     $vagrant.vm.provision ansible_mode_id do |ansible|
       ansible.provisioning_path = "#{PLAYBOOK_PATH}"
       ansible.playbook = @cnf.playbook
-      ansible.inventory_path = @cnf.inventory # TODO : case no inventory
-      ansible.extra_vars = @cnf.extra_vars
+      ansible.inventory_path = @cnf.inventory || DEFAULT_INVENTORY
+      ansible.extra_vars = @cnf.vars.to_h
     end
   end
 
@@ -39,12 +43,8 @@ class Ansible < Component
 
   def parse_config
     if @cnf.playbook
-      @git_url = [
-        @git.provider, 
-        @git.org,
-        @cnf.playbook
-      ].join('/')
-      @git_clone = "git clone #{@git_url} #{PLAYBOOK_PATH}/#{@cnf.playbook} "
+      git_url ="#{@git.provider}:#{@git.org}/#{@cnf.playbook}"
+      @git_clone = "git clone #{git_url} #{PLAYBOOK_PATH}/#{@cnf.playbook} "
     end
   end
 
@@ -60,6 +60,8 @@ class Ansible < Component
         'missing'
       )
     end
+    # Set @valid to true (component is ok)
+    return true
   end
   # end class Ansible
 end

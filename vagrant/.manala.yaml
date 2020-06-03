@@ -28,7 +28,7 @@ vagrant:
         # @option {"label": "Git username"}
         org: "loic-roux-404"
         # @schema {"type": "string"}
-        provider: "https://github.com"
+        provider: github.com
 
     paths:
         # @schema {"type": "string" }
@@ -77,6 +77,8 @@ vagrant:
         # @schema {"type": "string" }
         # @option {"label": "Inventory name"}
         inventory: ""
+        # @schema {"type": "string" }
+        playbook_version: master
         # @schema {"enum": ["local", "classic", "worker"]}
         # @option {"label": "Vagrant ansible provisionning mode"}
         type: "local"

@@ -4,7 +4,7 @@ manala:
       - ../vagrant/.manala/ .manala/
       - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
       - ../vagrant/Vagrantfile Vagrantfile
-      - .gitignore.tmpl
+      - .gitignore.tmpl .gitignore
       - .manala/python.mk
       - .editorconfig
 
@@ -35,7 +35,7 @@ vagrant:
     # @schema {"type": "string"}
     org: "loic-roux-404"
     # @schema {"type": "string"}
-    provider: "https://github.com"
+    provider: github.com
 
   paths:
     # @schema {"type": "string" }
@@ -80,6 +80,8 @@ vagrant:
     disabled: true
     # @schema {"type": "string"}
     playbook: ""
+    # @schema {"type": "string" }
+    playbook_version: master
     # @schema {"type": "string" }
     inventory: ""
     # @schema {"enum": ["local", "classic", "worker"]}
