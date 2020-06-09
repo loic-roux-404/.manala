@@ -105,8 +105,7 @@ vagrant:
     # @schema {"type": "string"}
     sub_playbook: "site.yml"
     # @schema {"type": "object", "additionalProperties": true}
-    vars:
-      keyboard_mac: false
+    vars: {}
 
   fs:
     # @schema {"enum": ["rsync", "nfs", "smb", "vbox"]}

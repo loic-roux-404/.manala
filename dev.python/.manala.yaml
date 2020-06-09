@@ -79,7 +79,7 @@ vagrant:
     # @schema {"type": "boolean"}
     disabled: true
     # @schema {"type": "string"}
-    playbook: ""
+    playbook: "inventory"
     # @schema {"type": "string" }
     playbook_version: master
     # @schema {"type": "string" }
@@ -89,8 +89,7 @@ vagrant:
     # @schema {"type": "string"}
     sub_playbook: "site.yml"
     # @schema {"type": "object", "additionalProperties": true}
-    vars:
-      keyboard_mac: false
+    vars: {}
 
   fs:
     # @schema {"enum": ["rsync", "nfs", "smb", "vbox"]}
