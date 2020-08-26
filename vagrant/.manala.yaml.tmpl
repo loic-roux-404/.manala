@@ -5,6 +5,7 @@ manala:
 {{- if .Vars.repository_save }}
 repository_save: {{ .Vars.repository_save | toYaml }}
 {{- end}}
+gitignore: {{ .Vars.gitignore | toYaml }}
 {{"\r"}}
 {{- if index .Vars "ansible" }}
 ansible: {{ .Vars.ansible | toYaml | nindent 2 }}

@@ -47,3 +47,7 @@ var/
 # Translations
 *.mo
 *.pot
+
+{{- if .Vars.gitignore }}
+    {{- .Vars.gitignore -}}
+{{- end -}}
