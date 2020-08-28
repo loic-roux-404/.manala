@@ -1,7 +1,11 @@
 # Base makefile for ansible / vagrant projects
 SHELL=/bin/bash
 # read setting from config
-config=$(shell yq merge -x .manala.yaml config.yaml | yq r - $(1))
+config=$(shell if [ -f "config.yaml" ]; then \
+		yq merge -x .manala.yaml config.yaml | yq r - $(1) \
+	else; \
+		yq r .manala.yaml $(1);\
+	fi;)
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
