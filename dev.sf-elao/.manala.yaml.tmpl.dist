@@ -1,0 +1,54 @@
+####################################################################
+# !!! REMINDER !!!                                                 #
+# Don't forget to run `manala up` each time you update this file ! #
+####################################################################
+
+manala:
+    recipe: elao.app
+
+##########
+# System #
+##########
+
+system:
+    version: {{ .Vars.system.version | toYaml }}
+    hostname: {{ .Vars.system.hostname | toYaml }}
+
+    {{- if .Vars.system.php.version }}
+    php:
+        version: {{ .Vars.system.php.version | toYaml }}
+        extensions:
+          # Symfony
+          - intl
+          - curl
+          - mbstring
+          - xml
+          # App
+          - mysql
+    {{- end }}
+
+    {{- if .Vars.system.symfony.version }}
+    symfony:
+        version: {{ .Vars.system.symfony.version | toYaml }}
+    {{- end }}
+
+    {{- if .Vars.system.nodejs.version }}
+    nodejs:
+        version: {{ .Vars.system.nodejs.version | toYaml }}
+    {{- end }}
+
+    {{- if .Vars.system.mariadb.version }}
+    mariadb:
+        version: {{ .Vars.system.mariadb.version | toYaml }}
+    {{- end }}
+
+    {{- if .Vars.system.mysql.version }}
+    mysql:
+        version: {{ .Vars.system.mysql.version | toYaml }}
+    {{- end }}
+
+    {{- if .Vars.system.elasticsearch.version }}
+    elasticsearch:
+        version: {{ .Vars.system.elasticsearch.version | toYaml }}
+        plugins: []
+    {{- end }}

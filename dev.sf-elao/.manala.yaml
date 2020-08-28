@@ -1,0 +1,134 @@
+manala:
+    description: Elao - Generic application with PHP and Node.js support
+    sync:
+      - .manala/ansible
+      - .manala/docker
+      - .manala/jenkins
+      - .manala/make
+      - .manala/.gitignore
+      - README.md .manala/README.md
+      - .manala.yaml.tmpl.dist
+
+##########
+# System #
+##########
+
+system:
+    # @schema {"enum": [9, 8]}
+    # @option {"label": "System version"}
+    version: ~
+    # @schema {"type": "string", "format": "domain"}
+    # @option {"label": "Hostname"}
+    hostname: ~
+    php:
+        # @schema {"enum": [null, 7.4, 7.3, 7.2, 7.1, "7.0", 5.6]}
+        # @option {"label": "Php version"}
+        version: ~
+        # @schema {"items": {"type": "string"}}
+        extensions: []
+    symfony:
+        # @schema {"enum": [null, "*"]}
+        # @option {"label": "Symfony version"}
+        version: ~
+    nodejs:
+        # @schema {"enum": [null, 12, 10, 8, 6]}
+        # @option {"label": "Nodejs version"}
+        version: ~
+    mariadb:
+        # @schema {"enum": [null, 10.4, 10.3, 10.2, 10.1, "10.0"]}
+        # @option {"label": "MariaDB version"}
+        version: ~
+    mysql:
+        # @schema {"enum": [null, 5.7, 5.6]}
+        # @option {"label": "MySQL version"}
+        version: ~
+    elasticsearch:
+        # @schema {"enum": [null, 7, 6, 5, 2, 1.7, 1.6, 1.5]}
+        # @option {"label": "Elasticsearch version"}
+        version: ~
+        # @schema {"items": {"type": "string"}}
+        plugins: []
+    apt:
+        # @schema {"items": {"type": "string"}}
+        packages: []
+    ssh:
+        # @schema {"type": ["null", "string"]}
+        config: ~
+
+###############
+# Integration #
+###############
+
+# @schema {
+#     "definitions": {
+#         "integration": {"type": "object", "$id": "#integration",
+#             "additionalProperties": false,
+#             "properties": {
+#                 "label": {"type": "string"},
+#                 "parallel": {"type": "boolean"},
+#                 "app": {"type": "string", "pattern": "^[a-z]+$"},
+#                 "env": {"type": "object",
+#                     "additionalProperties": {"type": ["string", "integer"]},
+#                     "propertyNames": {"pattern": "^[A-Z_]+$"}
+#                 },
+#                 "junit": {"type": "string"},
+#                 "artifacts": {"type": ["string", "array"]},
+#                 "shell": {"type": "string"},
+#                 "warn": {"type": "boolean"},
+#                 "tasks": {"type": "array", "items": {"$ref": "#integration"}}
+#             }
+#         }
+#     },
+#     "$ref": "#integration"
+# }
+integration: {}
+
+############
+# Releases #
+############
+
+# @schema {
+#     "definitions": {
+#         "release": {"type": "object", "$id": "#release",
+#             "additionalProperties": false,
+#             "properties": {
+#                 "app": {"type": "string", "pattern": "^[a-z]+$"},
+#                 "mode": {"enum": ["production", "staging"]},
+#                 "repo": {"type": "string", "format": "git-repo"},
+#                 "release_tasks": {"type": "array", "items": {"$ref": "#release_tasks"}},
+#                 "release_add": {"type": "array", "items": {"type": "string"}},
+#                 "release_removed": {"type": "array", "items": {"type": "string"}},
+#                 "deploy_hosts": {"type": "array", "items": {"$ref": "#release_hosts"}},
+#                 "deploy_dir": {"type": "string", "format": "file-path"},
+#                 "deploy_releases": {"type": "integer"},
+#                 "deploy_tasks": {"type": "array", "items": {"$ref": "#release_tasks"}},
+#                 "deploy_post_tasks": {"type": "array", "items": {"$ref": "#release_tasks"}},
+#                 "deploy_shared_files": {"type": "array", "items": {"type": "string"}},
+#                 "deploy_shared_dirs": {"type": "array", "items": {"type": "string"}},
+#                 "deploy_writable_dirs": {"type": "array", "items": {"type": "string"}}
+#             },
+#             "dependencies": {
+#                 "deploy_hosts": ["deploy_dir"]
+#             },
+#             "required": ["mode", "repo"]
+#         },
+#         "release_tasks": {"type": "object", "$id": "#release_tasks",
+#             "additionalProperties": false,
+#             "properties": {
+#                 "shell": {"type": "string"},
+#                 "when": {"type": "string"}
+#             }
+#         },
+#         "release_hosts": {"type": "object", "$id": "#release_hosts",
+#             "additionalProperties": true,
+#             "properties": {
+#                 "ssh_host": {"type": "string", "format": "hostname"},
+#                 "ssh_user": {"type": "string"},
+#                 "ssh_args": {"type": "string"}
+#             },
+#             "required": ["ssh_host"]
+#         }
+#     },
+#     "items": {"$ref": "#release"}
+# }
+releases: []

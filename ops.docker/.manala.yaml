@@ -2,3 +2,4 @@ manala:
   description: Docker
   sync:
     - .manala/run.mk
+    - ../.gitattributes .gitattributes

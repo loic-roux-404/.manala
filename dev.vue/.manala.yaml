@@ -6,3 +6,4 @@ manala:
       - .vscode/settings.json
       - .editorconfig
       - ../.github/ .github/
+      - ../.gitattributes .gitattributes

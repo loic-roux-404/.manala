@@ -7,3 +7,4 @@ manala:
       - .vscode/settings.json
       - .github/workflows/
       - ../.github/ .github/
+      - ../.gitattributes .gitattributes

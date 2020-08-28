@@ -11,6 +11,7 @@ manala:
     - plugins/callbacks/auto_tag.py
     - .gitignore.tmpl
     - .editorconfig
+    - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: ops.playbook

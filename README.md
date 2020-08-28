@@ -4,10 +4,10 @@ This project is used to share reccurrent files between multiple projects
 
 ## TO DO
 
-- `auto` option for ip (vagrant)
-- paramiko mode for ansible (link with packer)
-- molecule tests ansible
-- port vue template here
+- [ ] `auto` option for ip (vagrant)
+- [ ] paramiko mode for ansible (link with packer)
+- [ ] port vue template here
+- [ ] sf replace jenkins by circle / travis or github actions
 
 ## Doc
 
