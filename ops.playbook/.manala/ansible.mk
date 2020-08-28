@@ -1,5 +1,7 @@
 # Base makefile for ansible / vagrant projects
 SHELL=/bin/bash
+PY:=python3
+PIP:=pip3
 # read setting from config
 config=$(shell if [ -f "config.yaml" ]; then \
 		yq merge -x .manala.yaml config.yaml | yq r - $(1) \
@@ -60,8 +62,9 @@ $(PLAYBOOKS): % : %.run
 
 install:
 	ansible-galaxy install -r roles/requirements.yml $(ARG)
-	$(foreach var,$(shell ls -d *roles/role*/requirements.txt),pip install -r $(var))
-	$(foreach var,$(shell ls -d *.ext_roles/role*/requirements.txt),pip install -r $(var))
+	$(PIP) install -r requirements.txt || true
+	$(foreach var,$(shell ls -d *roles/role*/requirements.txt),$(PIP) install -r $(var))
+	$(foreach var,$(shell ls -d *.ext_roles/role*/requirements.txt),$(PIP) install -r $(var))
 
 # ==============================
 # Warning run target is for prod
@@ -74,6 +77,7 @@ install:
 %.run-f:
 	@$(call playbook_exe)
 
+.PHONY: $(addsuffix .tag, $(TAGS))
 # Run specific tag / role name
 # Example : make role-basics.tag ( for role-basics)
 # Role are automaticly tagged with ansible callback plugin auto_tag.py
@@ -88,8 +92,14 @@ debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
 	$(eval INVENTORY:=$(DEV_INVENTORY))
 
+
+.PRECIOUS: $(addsuffix .invs, $(PLAYBOOKS))
+# Launch playbook in debug mode : formatted yaml &
+# dev inventory pointing to docker hosts
 %.debug: debug-deco
 	$(call playbook_exe)
 
+.PRECIOUS: $(addsuffix .debug, graph list)
+# More info about playbook env : graph.invs list.invs
 %.invs:
 	ansible-inventory -i $(INVENTORY) --$* $(ARG)
