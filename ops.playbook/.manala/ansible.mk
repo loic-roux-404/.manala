@@ -1,20 +1,13 @@
 # Base makefile for ansible / vagrant projects
 SHELL=/bin/bash
-PY:=python3
-PIP:=pip3
-# read setting from config
-config=$(shell if [ -f "config.yaml" ]; then \
-		yq merge -x .manala.yaml config.yaml | yq r - $(1) \
-	else; \
-		yq r .manala.yaml $(1);\
-	fi;)
+# read setting from config (touch config.yaml if not exist)
+config=$(shell yq merge -x .manala.yaml config.yaml | yq r - $(1))
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
 IP?=$(call config,vagrant.network.ip)
 DOMAIN?=$(call config,vagrant.domain)
 # ansible vars
-ANSIBLE_VARS:=$(shell echo -n $(call config,vagrant.ansible.vars) |\sed -e 's/:[^:\/\/]/="/g;s/$$/"/g;s/ *=/=/g')
 OPTIONS:=$(foreach var, $(ANSIBLE_VARS), -e $(subst ",,$(var)))
 # Environment variables of ansible
 ANSIBLE_STDOUT_CALLBACK:=default
@@ -43,10 +36,9 @@ help:
 	@echo "[======== Ansible Help ========]"
 	@echo "Usage: make <playbook> (ARG=<your-arg>)"
 	@echo "Available PLAYBOOKS: $(PLAYBOOKS)"
-	@echo "run role / tag : $(addsuffix .tag, $(TAGS)))"
+	@echo "run role / tag : $(addsuffix .tag, $(TAGS))"
 	@$(MAKE) help_more || echo -n ''
 	@echo "[========== OPTIONS ===========]"
-	@echo "Extra vars : $(ANSIBLE_VARS)"
 	@echo "Ip: $(IP)"
 	@echo "Domain: $(DOMAIN)"
 	@echo "default inventory: $(INVENTORY)"

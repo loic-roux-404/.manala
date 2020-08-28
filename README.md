@@ -38,6 +38,7 @@ Goal is to provide reusable preconfigured set of tools and Organisation on **vag
 ---
 
 #### Full config.yaml
+> !! Always create this file (`touch config.yaml`)
 
 > Use this same schema in manala.yaml to share a default config
 
