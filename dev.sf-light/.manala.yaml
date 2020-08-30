@@ -1,5 +1,5 @@
 manala:
-    description: Symfony environment, opiniated, docker based, for lazy people
+    description: Symfony light
     sync:
       - .manala/make
       - .manala/mariadb

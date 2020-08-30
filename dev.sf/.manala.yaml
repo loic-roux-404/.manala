@@ -1,4 +1,4 @@
 manala:
-    description: Symfony 
+    description: Symfony
     sync:
       - .manala

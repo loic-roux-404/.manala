@@ -1,18 +1,15 @@
-## Objet de la pull request
+## Subject
 
-<!-- [<identifiant-ticket>](https://app.clickup.com/t/identifiant-ticket) -->
+## Done
 
-## Développement fait
+## View
 
-## Vue
+## Tests
 
-## Comment tester
+## Good practices
 
-## Mes bonnes pratiques
-
-
-- [] J'ai mis une capture d'écran de ce que j'ai fait si besoin<br>
-- [] Le titre de ma PR contient bien l' `#id` de mon ticket<br>
+- [] Screenshot <br>
+- [] Task id in PR title<br>
 - [] Mon historique est correcte <br>
 - [] Je merge sur la branche demandée par mon ticket <br>
 - [] J'ai mis à jour ma branche avec la remote `g4-dev`<br>

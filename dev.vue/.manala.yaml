@@ -1,5 +1,5 @@
 manala:
-    description: Node js
+    description: Vue
     sync:
       - .manala
       - .vscode/extensions.json
