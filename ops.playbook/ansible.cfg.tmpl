@@ -13,7 +13,7 @@ host_key_checking       = False
 remote_tmp              = /tmp/ansible-$USER
 {{- if .Vars.ansible.auto_tag }}
 callback_plugins        = plugins/callbacks
-callback_whitelist      = auto_tags
+callback_whitelist      = auto_tag
 {{- end }}
 # Custom configs (in .manala.yaml)
 {{- range $key, $cfg := .Vars.ansible.cfg_lines }}
