@@ -8,7 +8,7 @@ manala:
     - ansible.cfg.tmpl
     - .manala/ansible.mk
     - .vscode/
-    - plugins/callbacks/auto_tag.py
+    - plugins/callbacks/
     - .gitignore.tmpl
     - .editorconfig
     - ../.gitattributes .gitattributes

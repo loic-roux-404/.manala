@@ -1,5 +1,7 @@
 # Base makefile for ansible / vagrant projects
 SHELL=/bin/bash
+# Executables
+PIP:=pip3
 # read setting from config (touch config.yaml if not exist)
 config=$(shell yq merge -x .manala.yaml config.yaml | yq r - $(1))
 # All variables necessary to run and debug ansible playbooks
