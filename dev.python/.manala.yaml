@@ -1,6 +1,7 @@
 manala:
     description: Python
     sync:
+      - .vscode/
       - ../vagrant/.manala/ .manala/
       - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
       - ../vagrant/Vagrantfile Vagrantfile
@@ -13,8 +14,7 @@ manala:
 recipe_save: dev.python
 repository_save: http://github.com/loic-roux-404/manala-recipes.git
 
-py:
-  gitignore: ''
+gitignore: ''
 
 # This vagrant schema in generic for playbook development
 vagrant:
