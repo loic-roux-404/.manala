@@ -48,6 +48,4 @@ var/
 *.mo
 *.pot
 
-{{- if .Vars.gitignore }}
-    {{- .Vars.gitignore -}}
-{{- end -}}
+{{ .Vars.gitignore | default "" }}
