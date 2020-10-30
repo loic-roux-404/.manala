@@ -1,5 +1,5 @@
 [defaults]
-interpreter_python      = /usr/bin/python3
+interpreter_python      = auto
 # default inventory
 {{- if .Vars.ansible.inventory }}
 inventory               = {{ .Vars.ansible.inventory  }}
