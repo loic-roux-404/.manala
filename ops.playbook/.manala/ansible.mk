@@ -76,7 +76,11 @@ install:
 # Run specific tag / role name
 # Example : make role-basics.tag ( for role-basics)
 # Role are automaticly tagged with ansible callback plugin auto_tag.py
-%.tag: debug-deco
+%.tag:
+	$(eval ARG:='--tag=$*')
+	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
+
+%.tag.debug: debug-deco
 	$(eval ARG:='--tag=$*')
 	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
 
