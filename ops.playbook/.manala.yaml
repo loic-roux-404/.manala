@@ -36,6 +36,12 @@ ansible:
   cfg_lines: {}
   # @schema {"type": "boolean"}
   auto_tag: true
+  # @schema {"type": "object"}
+  privilege_escalation:
+    become: True
+    become_method: sudo
+    become_user: root
+    become_ask_pass: False
 
 # This vagrant schema in generic for playbook development
 vagrant:

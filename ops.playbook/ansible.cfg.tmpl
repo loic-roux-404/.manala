@@ -21,10 +21,9 @@ callback_whitelist      = auto_tag
 {{- end }}
 
 [privilege_escalation]
-become                  = True
-become_method           = sudo
-become_user             = root
-become_ask_pass         = False
+{{- range $key, $cfg := .Vars.ansible.privilege_escalation }}
+{{ $key }} = {{ $cfg }}
+{{- end }}
 
 [ssh_connection]
 pipelining              = True
