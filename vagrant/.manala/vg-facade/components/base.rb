@@ -6,12 +6,10 @@ class Base < Component
 		@UPDATE_VBGUEST = ENV['VBGUEST_UPDATE'] || cnf.vb_guest_update
 		@UPDATE_BOX = ENV['BOX_UPDATE'] || cnf.box_update
 		super(cnf)
-
 		self.dispatch_all
 	end
 
 	def base_box()
-		$vagrant.vm.hostname = @cnf.domain
 		$vagrant.vm.box = @cnf.box || DEFAULT_BOX
 		@cnf.box_version ? $vagrant.vm.box_version = @cnf.box_version : nil
     	$vagrant.vm.box_check_update = @UPDATE_BOX
