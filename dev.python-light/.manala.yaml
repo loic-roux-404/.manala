@@ -1,7 +1,7 @@
 manala:
     description: Python
     sync:
-      - ../dev.python/.vscode/
+      - ../dev.python/.vscode/ .vscode/
       - ../dev.python/.gitignore.tmpl .gitignore
       - ../dev.python/.manala/python.mk .manala/python.mk
       - ../dev.python/.editorconfig .editorconfig
