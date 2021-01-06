@@ -23,6 +23,8 @@ TAGS+=$(ROLES)
 # Debug command list
 INVS_DEBUG:=graph list
 
+
+
 # Build command
 playbook_exe= ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ANSIBLE_FORCE_COLOR=$(ANSIBLE_FORCE_COLOR) \
@@ -68,7 +70,6 @@ install:
 %.run:
 	@$(call prompt)
 	@$(call playbook_exe)
-
 # avoid prompt (Use this in automated processes)
 %.run-f:
 	@$(call playbook_exe)
