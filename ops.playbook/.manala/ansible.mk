@@ -23,8 +23,6 @@ TAGS+=$(ROLES)
 # Debug command list
 INVS_DEBUG:=graph list
 
-
-
 # Build command
 playbook_exe= ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ANSIBLE_FORCE_COLOR=$(ANSIBLE_FORCE_COLOR) \
@@ -91,7 +89,6 @@ install:
 debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
 	$(eval INVENTORY:=$(DEV_INVENTORY))
-
 
 .PRECIOUS: $(addsuffix .invs, $(PLAYBOOKS))
 # Launch playbook in debug mode : formatted yaml &
