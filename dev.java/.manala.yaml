@@ -1,0 +1,15 @@
+manala:
+    description: Java
+    sync:
+      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
+      - ../.github/workflows/pr-merge.yml .github/workflows/pr-merge.yml
+      - ../.github/workflows/release.yml .github/workflows/release.yml
+      - .gitignore.tmpl .gitignore
+      - .editorconfig
+      - ../.gitattributes .gitattributes
+
+# Save variable (manala delete original config vars under manala key)
+recipe_save: dev.java
+repository_save: http://github.com/loic-roux-404/manala-recipes.git
+
+gitignore: ''
