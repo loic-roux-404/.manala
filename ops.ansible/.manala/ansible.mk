@@ -19,20 +19,23 @@ INVENTORY?=$(call config,ansible.inventory)
 DEV_INVENTORY:=$(call config,ansible.inventory)/dev_hosts
 HOST:=
 ROLES:=$(notdir $(basename $(wildcard roles/role-*) ))
-TAGS+=$(ROLES)
+TAGS+=$(ROLES) # Need callback plugin
 # Debug command list
 INVS_DEBUG:=graph list
 
 # Build command
-playbook_exe= ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
+define playbook_exe
+	ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ANSIBLE_FORCE_COLOR=$(ANSIBLE_FORCE_COLOR) \
 	ansible-playbook $(OPTIONS) $(TAG)\
-	$(if $(INVENTORY), \
-		-i $(INVENTORY)$(if $(HOST),$(HOST),) \
-	,) \
-	$(if $(1),$(1).yml,$*.yml) $(ARG)
+	$(if $(INVENTORY),-i $(INVENTORY)$(or $(HOST),),) \
+	$(if $1,$1.yml,$*.yml) \
+	$(ARG)
+endef
 # Prompt exe
-prompt?=echo -ne "\x1b[33m $(1) Sure ? [y/N]\x1b[m" && read ans && [ $${ans:-N} = y ]
+define prompt
+	echo -ne "\x1b[33m $1 Sure ? [y/N]\x1b[m" && read ans && [ $${ans:-N} = y ]
+endef
 
 help:
 	@echo "[======== Ansible Help ========]"
