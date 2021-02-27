@@ -8,6 +8,7 @@ manala:
       - .gitignore.tmpl .gitignore
       - .manala/python.mk
       - .editorconfig
+      - .flake8
       - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)

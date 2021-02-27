@@ -1,10 +1,14 @@
-  
+
 ---
 # Based on ansible-lint config
 extends: default
 
 ignore: |
   venv/
+  .manala/
+  .github/
+  roles/
+  .ext_roles
 
 rules:
   braces:

@@ -11,6 +11,8 @@ manala:
     - plugins/callbacks/
     - .gitignore.tmpl
     - .editorconfig
+    - ../dev.python/.flake8 .flake8
+    - .yamllint
     - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)
