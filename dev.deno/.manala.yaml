@@ -1,10 +1,15 @@
 manala:
     description: Deno
     sync:
+      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
+      - ../.github/workflows/pr-merge.yml .github/workflows/pr-merge.yml
+      - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.releaserc .releaserc
       - .manala/
       - .editorconfig
       - .vscode/extensions.json
       - .vscode/settings.json
-      - .github/workflows/
+      - .github/workflows/deploy.yml
+      - .github/workflows/test.yml
       - ../.github/ .github/
       - ../.gitattributes .gitattributes

@@ -4,15 +4,11 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		// Vagrant
-		"marcostazi.vs-code-vagrantfile",
-		// Formatter
-		"SimonSiefke.prettier-vscode", // Better support of jinja
-		"redhat.vscode-yaml",
-		// Languages
-		"haaaad.ansible",
-		"Kasik96.latte", // Nette Latte + Neon
-		"wholroyd.jinja" // jinja templating
+		"nhoizey.gremlins", // Find special invisible chars
+    "premparihar.gotestexplorer", // Explore all tests
+    "zxh404.vscode-proto3", // Protobuf
+    "quicktype.quicktype", // Paste Json as code
+    "golang.go-nightly" // go language support
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [

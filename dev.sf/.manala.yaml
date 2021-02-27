@@ -1,4 +1,0 @@
-manala:
-    description: Symfony
-    sync:
-      - .manala
