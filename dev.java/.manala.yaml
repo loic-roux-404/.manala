@@ -2,10 +2,11 @@ manala:
     description: Java
     sync:
       - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-      - ../.github/workflows/pr-merge.yml .github/workflows/pr-merge.yml
+      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
       - ../.releaserc .releaserc
-      - .gitignore.tmpl .gitignore
+      - .github/workflows/deploy.yml
+      - .gitignore.tmpl .gitignore.tmpl
       - .editorconfig
       - ../.gitattributes .gitattributes
 

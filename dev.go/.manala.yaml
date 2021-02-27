@@ -2,7 +2,7 @@ manala:
     description: Java
     sync:
       - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-      - ../.github/workflows/pr-merge.yml .github/workflows/pr-merge.yml
+      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
       - ../.releaserc .releaserc
       - .gitignore.tmpl .gitignore
@@ -14,5 +14,3 @@ recipe_save: dev.go
 repository_save: http://github.com/loic-roux-404/manala-recipes.git
 
 gitignore: ''
-
-{{ default "" .Vars.gitignore }}

@@ -25,7 +25,7 @@ jobs:
             - name: log commit in common
               run: |
                 git fetch origin;
-                [[ ! -z $(git branch -a --list origin/beta) ]] && exit 0;
+                [[ -z $(git branch -a --list origin/beta) ]] && exit 0;
                 [[ $(git rev-parse --verify HEAD) = $(git rev-parse --verify origin/beta) ]] \
                  && echo 'History OK' && exit 0 || echo "history don't match with pre-release" && exit 1;
 
