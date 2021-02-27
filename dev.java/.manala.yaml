@@ -5,8 +5,9 @@ manala:
       - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
       - ../.releaserc .releaserc
-      - .github/workflows/deploy.yml
+      - .github/workflows/package.yml
       - .gitignore.tmpl .gitignore.tmpl
+      - .manala.yaml.tmpl
       - .editorconfig
       - ../.gitattributes .gitattributes
 

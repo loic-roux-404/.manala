@@ -13,7 +13,7 @@ This project is used to share reccurrent files between multiple projects
 
 For all tools `manala` is required to sync recipes in all projects
 
-`curl -sL https://gist.githubusercontent.com/loic-roux-404/e9b972dc0d933c8645dc796aaf29a7d3/raw/0174e66086c63211293bba64e67bd8fe26a58d6f/manala.sh | sh`
+`curl -sfL https://raw.githubusercontent.com/manala/manala/master/godownloader.sh | sh`
 
 #### 1. Vagrant module
 
