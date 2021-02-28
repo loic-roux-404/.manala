@@ -3,3 +3,7 @@ manala:
   sync:
     - .manala/run.mk
     - ../.gitattributes .gitattributes
+    - ../.manala.yaml.tmpl .manala.yaml.tmpl
+    
+# Save variable (manala delete original config vars under manala key)
+recipe_save: ops.docker

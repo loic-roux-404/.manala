@@ -1,17 +1,12 @@
 manala:
-    description: Java
+    description: Packer
     sync:
       - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
       - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
       - ../.releaserc .releaserc
-      - .github/workflows/package.yml
-      - .gitignore.tmpl .gitignore.tmpl
-      - ../.manala.yaml.tmpl manala.yaml.tmpl
-      - .editorconfig
       - ../.gitattributes .gitattributes
+      - ../.manala.yaml.tmpl manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
-recipe_save: dev.java
-
-gitignore: ''
+recipe_save: ops.packer

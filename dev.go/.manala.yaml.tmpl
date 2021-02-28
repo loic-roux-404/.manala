@@ -1,9 +1,0 @@
-manala:
-  repository: {{ .Vars.repository_save | default "https://github.com/loic-roux-404/manala-recipes.git" }}
-  recipe: {{ .Vars.recipe_save | default "dev.go" }}
-{{"\r"}}
-{{- if .Vars.repository_save }}
-repository_save: {{ .Vars.repository_save | toYaml }}
-{{- end}}
-gitignore: {{ .Vars.gitignore | toYaml }}
-{{"\r"}}

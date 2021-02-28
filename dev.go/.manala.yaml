@@ -8,9 +8,9 @@ manala:
       - .gitignore.tmpl .gitignore
       - .editorconfig
       - ../.gitattributes .gitattributes
+      - ../manala.yaml.tmpl manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.go
-repository_save: http://github.com/loic-roux-404/manala-recipes.git
 
 gitignore: ''
