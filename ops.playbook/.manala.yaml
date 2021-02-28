@@ -17,7 +17,7 @@ manala:
     - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)
-recipe_save: ops.ansible
+recipe_save: ops.playbook
 repository_save: http://github.com/loic-roux-404/manala-recipes.git
 gitignore: ''
 

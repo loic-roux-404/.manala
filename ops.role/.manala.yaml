@@ -1,0 +1,152 @@
+manala:
+  description: Ansible
+  sync:
+    - ../vagrant/.manala/vg-facade .manala/vg-facade
+    - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
+    - ../vagrant/Vagrantfile Vagrantfile
+    - ../ops.docker/.manala/run.mk .manala/docker.mk
+    - ../ops.playbook/ansible.cfg.tmpl ansible.cfg.tmpl
+    - ../ops.playbook/.manala/ansible.mk ansible.mk
+    - .vscode/settings.json
+    - ../ops.playbook/.vscode/extensions.json .vscode/extensions.json
+    - ../ops.playbook/.gitignore.tmpl .gitignore.tmpl
+    - ../ops.playbook/.editorconfig .editorconfig
+    - ../dev.python/.flake8 .flake8
+    - ../ops.playbook/.yamllint .yamllint
+    - ../ops.playbook/.ansible-lint .ansible-lint
+    - ../.gitattributes .gitattributes
+
+# Save variable (manala delete original config vars under manala key)
+recipe_save: ops.role
+repository_save: http://github.com/loic-roux-404/manala-recipes.git
+gitignore: ''
+
+# Configure ansible playbook boilerplate (cfg / role dev)
+ansible:
+  # @schema {"type": "string"}
+  # @option {"label": "Default inventory"}
+  inventory: ""
+  # @schema {"enum": [false, true]}
+  # @option {"label": "Keep roles in project"}
+  internal_roles: false
+  # @schema {
+  #     "definitions": {
+  #         "cfg_line": {"type": "object", "$id": "#cfg_line",
+  #             "additionalProperties": true
+  #          }
+  #      }
+  #  }
+  cfg_lines: {}
+  # @schema {"type": "boolean"}
+  auto_tag: true
+  # @schema {"type": "object"}
+  privilege_escalation:
+    become: True
+    become_method: sudo
+    become_user: root
+    become_ask_pass: False
+
+# This vagrant schema in generic for playbook development
+vagrant:
+  # @schema {"type": "string", "minLength": 3}
+  # @option {"label": "Project name (use git repo name)"}
+  project_name: ~
+  # @schema {"type": "string", "minLength": 3}
+  # @option {"label": "Hostname"}
+  domain: "localhost"
+  # @schema {"type": "string"}
+  box: "loic-roux-404/deb64-buster"
+  # @schema {"type": "boolean"}
+  vb_guest_update: false
+  # @schema {"type": "boolean"}
+  box_update: false
+  # @schema {"type": ["null","string"]}
+  box_version: ~
+  git:
+    # @schema {"type": "string"}
+    org: "loic-roux-404"
+    # @schema {"type": "string"}
+    provider: github.com
+
+  paths:
+    # @schema {"type": "string" }
+    web: ""
+    # @schema {"type": "string", "default": "./"}
+    host: "./"
+    # @schema {"type": "string", "default": "/vagrant"}
+    guest: "/vagrant"
+
+  network:
+    # @schema {"type": ["null","string"], "format": "ipv4"}
+    ip: ~
+    # @schema {"enum": ["public","private"]}
+    # @option {"label": "Vagrant networking"}
+    type: "public"
+    # @schema {"enum": [true, false]}
+    # @option {"label": "Enable local dns server"}
+    dns: true
+    # @schema {
+    #     "definitions": {
+    #         "port": {"type": "object", "$id": "#port",
+    #             "additionalProperties": false,
+    #             "properties": {
+    #                 "guest": {"type": "integer"},
+    #                 "host": {"type": "integer"},
+    #                 "auto_correct":  {"type": "boolean"},
+    #                 "disabled": {"type": "boolean"}
+    #             }
+    #          }
+    #      },
+    #      "items": {"$ref": "#port"}
+    #  }
+    ports: []
+    ssl:
+      # @schema {"type": ["null","string"]}
+      cert: ~
+      # @schema {"type": "string"}
+      path: "/etc/ssl"
+    # @schema {"type": "boolean"}
+    fix_routing: true
+
+  ansible:
+    # @schema {"type": "boolean"}
+    disabled: true
+    # @schema {"type": "string"}
+    playbook: ""
+    # @schema {"type": "string" }
+    playbook_version: master
+    # @schema {"type": "string" }
+    inventory: ""
+    # @schema {"enum": ["local", "classic", "worker"]}
+    type: "local"
+    # @schema {"type": "string"}
+    sub_playbook: "site.yml"
+    # @schema {"type": "object", "additionalProperties": true}
+    vars: {}
+
+  fs:
+    # @schema {"enum": ["rsync", "nfs", "smb", "vbox"]}
+    # @option {"label": "Shared folder type"}
+    type: "rsync"
+    opts:
+      # @schema {"type": "boolean"}
+      rsync_auto: true
+      # @schema {"enum": [true, false]}
+      # @option {"label": "Disable shared folder"}
+      disabled: true
+      # @schema {"type": ["null","string"]}
+      smb_username: ~
+      # @schema {"type": ["null","string"]}
+      smb_password: ~
+      # @schema {"items": {"type": "string"}}
+      ignored: ["/**/.DS_Store", ".git", ".vagrant", ".idea/", ".vscode/"]
+
+  provider:
+    # @schema {"enum": ["virtualbox", "libvirt", "docker", "parallels", "vmware"]}
+    # @option {"label": "Hypervisor"}
+    type: "virtualbox"
+    # @schema {"type": "object", "additionalProperties": { "type": "string" }}
+    opts:
+      natdnshostresolver1: "on"
+      cpus: "2"
+      memory: "1024"
