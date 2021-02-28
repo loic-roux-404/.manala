@@ -2,9 +2,9 @@ manala:
     description: Python
     sync:
       - .vscode/
-      - ../vagrant/.manala/ .manala/vg-facade
-      - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
-      - ../vagrant/Vagrantfile Vagrantfile
+      - ../ops.vagrant/.manala/ .manala/vg-facade
+      - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
+      - ../ops.vagrant/Vagrantfile Vagrantfile
       - .gitignore.tmpl .gitignore
       - .manala/python.mk
       - .editorconfig

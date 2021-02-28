@@ -4,6 +4,7 @@ This project is used to share reccurrent files between multiple projects
 
 ## TO DO
 
+- [ ] manala template release system, branches in github actions + .releaserc
 - [ ] `auto` option for ip (vagrant)
 - [ ] paramiko mode for ansible (link with packer)
 - [ ] port vue template here

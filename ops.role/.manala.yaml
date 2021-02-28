@@ -1,9 +1,9 @@
 manala:
   description: Ansible
   sync:
-    - ../vagrant/.manala/vg-facade .manala/vg-facade
-    - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
-    - ../vagrant/Vagrantfile Vagrantfile
+    - ../ops.vagrant/.manala/vg-facade .manala/vg-facade
+    - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
+    - ../ops.vagrant/Vagrantfile Vagrantfile
     - ../ops.docker/.manala/run.mk .manala/docker.mk
     - ../ops.playbook/ansible.cfg.tmpl ansible.cfg.tmpl
     - ../ops.playbook/.manala/ansible.mk ansible.mk
