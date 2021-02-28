@@ -1,7 +1,7 @@
 manala:
   description: Ansible
   sync:
-    - ../vagrant/.manala/ .manala/vg-facade
+    - ../vagrant/.manala/vg-facade .manala/vg-facade
     - ../vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../vagrant/Vagrantfile Vagrantfile
     - ../ops.docker/.manala/run.mk .manala/docker.mk
@@ -13,10 +13,11 @@ manala:
     - .editorconfig
     - ../dev.python/.flake8 .flake8
     - .yamllint
+    - .ansible-lint
     - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)
-recipe_save: ops.playbook
+recipe_save: ops.ansible
 repository_save: http://github.com/loic-roux-404/manala-recipes.git
 gitignore: ''
 
