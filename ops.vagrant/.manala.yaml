@@ -6,7 +6,6 @@ manala:
         - .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
-repository_save: git@github.com:loic-roux-404/manala-recipes.git
 recipe_save: ops.vagrant
 
 # generic vagrant config

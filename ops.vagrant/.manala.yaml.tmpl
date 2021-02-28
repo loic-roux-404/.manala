@@ -1,10 +1,8 @@
 manala:
-  repository: {{ default "https://github.com/loic-roux-404/manala-recipes.git" .Vars.repository_save }}
+  repository: "https://github.com/loic-roux-404/manala-recipes.git" 
   recipe: {{ default "vagrant" .Vars.recipe_save }}
 {{"\r"}}
-{{- if .Vars.repository_save }}
-repository_save: {{ .Vars.repository_save | toYaml }}
-{{- end}}
+
 gitignore: {{ .Vars.gitignore | toYaml }}
 {{"\r"}}
 {{- if index .Vars "ansible" }}

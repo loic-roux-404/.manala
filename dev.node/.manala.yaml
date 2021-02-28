@@ -10,4 +10,4 @@ manala:
       - .vscode/settings.json
       - .editorconfig
       - ../.gitattributes .gitattributes
-      - ../manala.yaml.tmpl manala.yaml.tmpl
+      - ../manala.yaml.tmpl .manala.yaml.tmpl

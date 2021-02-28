@@ -13,7 +13,7 @@ manala:
       - .github/workflows/test.yml
       - ../.github/ .github/
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl manala.yaml.tmpl
+      - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.deno

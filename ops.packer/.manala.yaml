@@ -6,7 +6,7 @@ manala:
       - ../.github/workflows/release.yml .github/workflows/release.yml
       - ../.releaserc .releaserc
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl manala.yaml.tmpl
+      - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: ops.packer

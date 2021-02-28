@@ -7,7 +7,7 @@ manala:
       - ../.releaserc .releaserc
       - .github/workflows/package.yml
       - .gitignore.tmpl .gitignore.tmpl
-      - ../.manala.yaml.tmpl manala.yaml.tmpl
+      - ../.manala.yaml.tmpl .manala.yaml.tmpl
       - .editorconfig
       - ../.gitattributes .gitattributes
 
