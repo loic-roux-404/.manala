@@ -1,0 +1,6 @@
+manala:
+  repository: REPOSITORY
+  recipe: RECIPE
+
+gitignore: |
+  "build/"
