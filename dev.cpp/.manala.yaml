@@ -1,14 +1,21 @@
 manala:
     description: Java
     sync:
+      # CI / CD
       - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
       - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+      - ../.github/wip.yml .github/wip.yml
       - ../.releaserc .releaserc
+      # gitignore
       - .gitignore.tmpl .gitignore
       - .editorconfig
+      - .vscode/
+      # base
       - ../.gitattributes .gitattributes
       - ../.manala.yaml.tmpl .manala.yaml.tmpl
+
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.cpp

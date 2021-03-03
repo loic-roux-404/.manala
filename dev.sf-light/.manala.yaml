@@ -1,6 +1,14 @@
 manala:
     description: Symfony light
     sync:
+      # CI / CD
+      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
+      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
+      - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+      - ../.github/wip.yml .github/wip.yml
+      - ../.releaserc .releaserc
+      # sf files
       - .manala/make
       - .manala/mariadb
       - .manala/nginx

@@ -1,12 +1,16 @@
 manala:
-    description: Packer
+    description: Deno
     sync:
+      # CI / CD
       - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
       - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
       - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.github/PULL_REQUEST_TEMPLATE.md .github/workflows/PULL_REQUEST_TEMPLATE.md
+      - ../.github/wip.yml .github/workflows/wip.yml
       - ../.releaserc .releaserc
+      # base
       - ../.gitattributes .gitattributes
       - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
-recipe_save: ops.packer
+recipe_save: dev.cd

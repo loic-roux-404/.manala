@@ -1,0 +1,6 @@
+manala:
+  recipe: {{ .Vars.recipe_save }}
+{{"\r"}}
+{{printf "%#v" .}}
+gitignore: {{ .Vars.gitignore | toYaml }}
+{{"\r"}}

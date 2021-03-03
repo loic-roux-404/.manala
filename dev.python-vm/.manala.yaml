@@ -1,61 +1,31 @@
 manala:
-  description: Ansible playbook
-  sync:
-    # CI / CD
-    - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-    - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
-    - ../.github/workflows/release.yml .github/workflows/release.yml
-    - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
-    - ../.github/wip.yml .github/wip.yml
-    - ../.releaserc .releaserc
-    # Vm module
-    - ../ops.vagrant/.manala/vg-facade .manala/vg-facade
-    - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
-    - ../ops.vagrant/Vagrantfile Vagrantfile
-    # docker
-    - ../ops.docker/.manala/run.mk .manala/docker.mk
-    # playbook files
-    - ansible.cfg.tmpl
-    - .manala/ansible.mk
-    - .vscode/
-    - plugins/callbacks/
-    - .gitignore.tmpl
-    - .editorconfig
-    - ../dev.python/.flake8 .flake8
-    - .yamllint
-    - .ansible-lint
-    # base
-    - ../.gitattributes .gitattributes
+    description: Python
+    sync:
+      # CI / CD
+      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
+      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
+      - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+      - ../.github/wip.yml .github/wip.yml
+      - ../.releaserc .releaserc
+      # Vm module
+      - ../ops.vagrant/.manala/ .manala/vg-facade
+      - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
+      - ../ops.vagrant/Vagrantfile Vagrantfile
+      # python
+      - ../dev.python/.vscode/ .vscode/
+      - ../dev.python/.gitignore.tmpl .gitignore
+      - ../dev.python/.manala/python.mk .manala/python.mk
+      - ../dev.python/.editorconfig .editorconfig
+      - ../dev.python/.flake8 .flake8
+      # base
+      - ../.gitattributes .gitattributes
+      - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
-recipe_save: ops.playbook
+recipe_save: dev.python-vm
 
 gitignore: ''
-
-# Configure ansible playbook boilerplate (cfg / role dev)
-ansible:
-  # @schema {"type": "string"}
-  # @option {"label": "Default inventory"}
-  inventory: ""
-  # @schema {"enum": [false, true]}
-  # @option {"label": "Keep roles in project"}
-  internal_roles: false
-  # @schema {
-  #     "definitions": {
-  #         "cfg_line": {"type": "object", "$id": "#cfg_line",
-  #             "additionalProperties": true
-  #          }
-  #      }
-  #  }
-  cfg_lines: {}
-  # @schema {"type": "boolean"}
-  auto_tag: true
-  # @schema {"type": "object"}
-  privilege_escalation:
-    become: True
-    become_method: sudo
-    become_user: root
-    become_ask_pass: False
 
 # This vagrant schema in generic for playbook development
 vagrant:
@@ -123,7 +93,7 @@ vagrant:
     # @schema {"type": "boolean"}
     disabled: true
     # @schema {"type": "string"}
-    playbook: ""
+    playbook: "inventory"
     # @schema {"type": "string" }
     playbook_version: master
     # @schema {"type": "string" }

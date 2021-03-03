@@ -1,9 +1,18 @@
 manala:
-  description: Ansible
+  description: Ansible role
   sync:
-    - ../ops.vagrant/.manala/vg-facade .manala/vg-facade
+    # CI / CD
+    - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
+    - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
+    - ../.github/workflows/release.yml .github/workflows/release.yml
+    - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+    - ../.github/wip.yml .github/wip.yml
+    - ../.releaserc .releaserc
+    # Vm module
+    - ../ops.vagrant/.manala/ .manala/vg-facade
     - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../ops.vagrant/Vagrantfile Vagrantfile
+    # role files
     - ../ops.docker/.manala/run.mk .manala/docker.mk
     - ../ops.playbook/ansible.cfg.tmpl ansible.cfg.tmpl
     - ../ops.playbook/.manala/ansible.mk ansible.mk
@@ -14,6 +23,7 @@ manala:
     - ../dev.python/.flake8 .flake8
     - ../ops.playbook/.yamllint .yamllint
     - ../ops.playbook/.ansible-lint .ansible-lint
+    # base
     - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)

@@ -31,7 +31,6 @@ array_contain() {
 guess_test() {
     array_contain $VM_RECIPES $1 && process_vm $1
     array_contain $ANSIBLE_RECIPES $1 && process_ansible $1
-
 }
 
 test_loop() {
@@ -39,9 +38,9 @@ test_loop() {
         RECIPE=${d}
         echo "[ === process ${RECIPE} === ]"
         CURR_DIR=.tests/${d}
-        mkdir ${d}
+        mkdir ${CURR_DIR}
         guess_test ${d}
-        rm -rf ${d}
+        rm -rf ${CURR_DIR}
     done
 }
 
