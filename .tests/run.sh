@@ -2,44 +2,61 @@
 
 VM_RECIPES=('dev.python-vm' 'ops.vagrant')
 ANSIBLE_RECIPES=('ops.role' 'ops.playbook')
-RECIPE=
-REPLACE=<<EOF
+REPOSITORY=$(pwd)
+
+# TODO :
+# _templating with sed
+# _ manala up
+
+process_test() {
+    # Definitions
+    local recipe=$1
+    local file=$2
+    REPLACE=<<EOF
 s/REPOSITORY/${REPOSITORY}/
-s/RECIPE/${RECIPE}/
+s/RECIPE/${1}/
 EOF
-
-# process() {
-
-# }
-
-process_vm() {
-    local manala=$(cat vm.manala.yaml)
-
+    # launch
+    cd .tests
+    sed -f ${REPLACE} ${file} > ${recipe}/.manala.yaml
+    cat ${recipe}/.manala.yaml
+    cd -
 }
 
-process_ansible() {
-    echo "[ === test ansible recipe $1 === ]"
-    cd $1 && manala up
-}
+contains() {
+    local needle="$1"
+    shift 1;
+    local arr=( "$@" )
 
-array_contain() {
-    local array=$1
-    local needle=$2
-    [[ " ${array[@]} " =~ " ${needle} " ]] && return 0 || return 1
+    for v in "${arr[@]}"; do
+        if [ "$v" == "$needle" ]; then
+            return 0;
+        fi
+    done
+   return 1;
 }
 
 guess_test() {
-    array_contain $VM_RECIPES $1 && process_vm $1
-    array_contain $ANSIBLE_RECIPES $1 && process_ansible $1
+    contains $1 "${VM_RECIPES[@]}" \
+        && process_test $1 vm.manala.yaml \
+        && return 0;
+
+    contains $1 "${ANSIBLE_RECIPES[@]}" \
+        && process_test $1 ansible.manala.yaml \
+        && return 0;
+
+    process_test $1 classic.manala.yaml;
 }
 
 test_loop() {
     for d in */ ; do
-        RECIPE=${d}
-        echo "[ === process ${RECIPE} === ]"
+        RECIPE=${d///} # remove the /
         CURR_DIR=.tests/${d}
         mkdir ${CURR_DIR}
-        guess_test ${d}
+        touch ${CURR_DIR}/.manala.yaml
+
+        guess_test ${RECIPE}
+
         rm -rf ${CURR_DIR}
     done
 }
