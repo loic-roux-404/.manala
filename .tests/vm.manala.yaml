@@ -1,6 +1,5 @@
 manala:
-  repository: REPOSITORY
-  recipe: RECIPE
+  recipe: '%RECIPE%'
 
 gitignore: "build/"
 
