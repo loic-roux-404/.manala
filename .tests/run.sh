@@ -2,7 +2,7 @@
 
 VM_RECIPES=('dev.python-vm' 'ops.vagrant')
 ANSIBLE_RECIPES=('ops.role' 'ops.playbook')
-REPOSITORY=$(pwd)
+REPOSITORY="$(pwd)"
 DEBUG=${DEBUG:-0}
 
 process_error () {
@@ -12,17 +12,24 @@ process_error () {
     exit 2
 }
 
+template_manala_yaml() {
+    local recipe=$1
+    local file=$2
+    cp -f .tests/$file .tests/${recipe}/.manala.yaml;
+    sed -ie "s/%RECIPE%/$recipe/g" .tests/${recipe}/.manala.yaml;
+    rm -rf .tests/${recipe}/.manala.yamle
+}
+
 process_test() {
     set -e
     # Definitions
     local recipe=$1
     local file=$2
     # template
-    cp -f .tests/$file .tests/${recipe}/.manala.yaml;
-    sed -ie "s/%RECIPE%/$recipe/g" .tests/${recipe}/.manala.yaml;
-    rm -rf .tests/${recipe}/.manala.yamle
+    template_manala_yaml "$recipe" "$file"
     # test
-    manala --repository "$REPOSITORY" up .tests/${recipe}/ && \
+    local _args=$([ $DEBUG -eq 1 ] && echo '--debug' || echo -n '')
+    manala ${_args} --repository "$REPOSITORY" up .tests/${recipe}/ && \
         echo "[ PASSED : $recipe ]" || process_error "$recipe";
 }
 
@@ -51,16 +58,20 @@ guess_test() {
     process_test $1 classic.manala.yaml;
 }
 
+process_recipe() {
+    RECIPE=${1///} # remove the /
+    CURR_DIR=.tests/${RECIPE}
+    mkdir ${CURR_DIR}
+
+    guess_test "$RECIPE"
+
+    rm -rf ${CURR_DIR}
+}
+
 test_loop() {
     for d in */ ; do
-        RECIPE=${d///} # remove the /
-        CURR_DIR=.tests/${RECIPE}
-        mkdir ${CURR_DIR}
-
-        guess_test "$RECIPE"
-
-        rm -rf ${CURR_DIR}
+        process_recipe "$d"
     done
 }
 
-test_loop
+[ -z $1 ] && test_loop || process_recipe "$1"

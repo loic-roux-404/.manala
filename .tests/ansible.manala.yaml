@@ -1,5 +1,5 @@
 manala:
-  #repository: REPOSITORY
+  repository: '%REPOSITORY%'
   recipe: '%RECIPE%'
 
 gitignore: |

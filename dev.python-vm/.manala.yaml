@@ -2,9 +2,9 @@ manala:
     description: Python
     sync:
       # CI / CD
-      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
-      - ../.github/workflows/release.yml .github/workflows/release.yml
+      - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
+      - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
+      - ../.github/workflows/release.yaml .github/workflows/release.yaml
       - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
       - ../.github/wip.yml .github/wip.yml
       - ../.releaserc .releaserc
@@ -15,12 +15,10 @@ manala:
       # python
       - ../dev.python/.vscode/ .vscode/
       - ../dev.python/.gitignore.tmpl .gitignore
-      - ../dev.python/.manala/python.mk .manala/python.mk
       - ../dev.python/.editorconfig .editorconfig
       - ../dev.python/.flake8 .flake8
       # base
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.python-vm

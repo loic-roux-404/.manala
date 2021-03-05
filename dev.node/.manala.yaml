@@ -14,7 +14,7 @@ manala:
       - .editorconfig
       # base
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl .manala.yaml.tmpl
+      - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.node

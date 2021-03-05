@@ -1,0 +1,19 @@
+name: Build and run tests
+
+on: [push, pull_request]
+
+jobs:
+    test:
+        name: Tests
+        runs-on: ubuntu-latest
+
+        env: {}
+
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: install manala
+              run: curl -sfL https://raw.githubusercontent.com/manala/manala/master/godownloader.sh | sh
+
+            - name: test all recipes
+              run: ./.tests/run.sh
