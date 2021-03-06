@@ -1,21 +1,25 @@
 manala:
     description: Vue
     sync:
-      # CI / CD
-      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
-      - ../.github/workflows/release.yml .github/workflows/release.yml
-      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
-      - ../.github/wip.yml .github/wip.yml
-      - ../.releaserc .releaserc
-      # TODO vue files
-      # - .manala
-      # - .vscode/extensions.json
-      # - .vscode/settings.json
-      # - .editorconfig
-      # base
-      - ../.github/ .github/
-      - ../.gitattributes .gitattributes
+        # CI / CD
+        - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
+        - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
+        - ../.github/workflows/release.yaml .github/workflows/release.yaml
+        - ../.github/workflows/labels.yaml .github/workflows/labels.yaml
+        - ../.github/lock.yaml .github/lock.yaml
+        - ../.github/labels.yaml .github/labels.yaml
+        - ../.github/stale.yaml .github/stale.yaml
+        - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+        - ../.github/wip.yaml .github/wip.yaml
+        - ../.releaserc .releaserc
+        # TODO vue files
+        # - .manala
+        # - .vscode/extensions.json
+        # - .vscode/settings.json
+        # - .editorconfig
+        # base
+        - ../.github/ .github/
+        - ../.gitattributes .gitattributes
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.vue

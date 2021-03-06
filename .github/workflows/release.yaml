@@ -15,7 +15,7 @@ jobs:
         env:
             MVN_FLAGS: "-Dproperties.java.version=${{ matrix.java }} -B clean"
 
-        name: Publish - GitHub Packages
+        name: Publish release - github
         if: >
             contains(github.event.head_commit.message, '[skip-release]') == false
             && contains(github.event.pull_request.labels.*.name, 'skip-release') == false

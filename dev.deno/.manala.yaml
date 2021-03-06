@@ -1,23 +1,26 @@
 manala:
     description: Deno
     sync:
-      # CI / CD
-      - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
-      - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
-      - ../.github/workflows/release.yaml .github/workflows/release.yaml
-      - ../.github/PULL_REQUEST_TEMPLATE.md .github/workflows/PULL_REQUEST_TEMPLATE.md
-      - ../.github/wip.yml .github/workflows/wip.yml
-      - ../.releaserc .releaserc
-      # Deno files
-      - .manala/deno.mk
-      - .editorconfig
-      - .vscode/extensions.json
-      - .vscode/settings.json
-      - .github/workflows/deploy.yml
-      - .github/workflows/test.yml
-      # base
-      - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
+        # CI / CD
+        - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
+        - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
+        - ../.github/workflows/release.yaml .github/workflows/release.yaml
+        - ../.github/workflows/labels.yaml .github/workflows/labels.yaml
+        - ../.github/lock.yaml .github/lock.yaml
+        - ../.github/labels.yaml .github/labels.yaml
+        - ../.github/stale.yaml .github/stale.yaml
+        - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+        - ../.github/wip.yaml .github/wip.yaml
+        - ../.releaserc .releaserc
+        # Deno files
+        - .manala/
+        - .editorconfig
+        - .vscode/
+        - .github/workflows/deploy.yml
+        - .github/workflows/test.yml
+        # base
+        - ../.gitattributes .gitattributes
+        - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.deno

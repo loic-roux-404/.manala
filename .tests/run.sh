@@ -20,12 +20,20 @@ template_manala_yaml() {
     rm -rf .tests/${recipe}/.manala.yamle
 }
 
+# Should be removed once fixed
+fix_folders() {
+    local recipe=$1
+    mkdir -p .tests/${recipe}/.github/workflows
+    mkdir -p .tests/${recipe}/.manala/
+}
+
 process_test() {
     set -e
     # Definitions
     local recipe=$1
     local file=$2
-    # template
+    # Prepare
+    fix_folders "$recipe"
     template_manala_yaml "$recipe" "$file"
     # test
     local _args=$([ $DEBUG -eq 1 ] && echo '--debug' || echo -n '')

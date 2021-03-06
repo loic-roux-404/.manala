@@ -1,27 +1,31 @@
 manala:
     description: Symfony light
     sync:
-      # CI / CD
-      - ../.github/workflows/auto-merge.yml .github/workflows/auto-merge.yml
-      - ../.github/workflows/pr-check.yml .github/workflows/pr-check.yml
-      - ../.github/workflows/release.yml .github/workflows/release.yml
-      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
-      - ../.github/wip.yml .github/wip.yml
-      - ../.releaserc .releaserc
-      # sf files
-      - .manala/make
-      - .manala/mariadb
-      - .manala/nginx
-      - .manala/php
-      - .manala/starship
-      - .manala/.dockerignore
-      - .manala/.gitignore
-      - .manala/docker-compose.yaml.tmpl
-      - .manala/Dockerfile.tmpl
-      - .manala/Makefile.tmpl
-      - .manala.yaml.tmpl.dist
-      - Makefile.dist
-      - README.md .manala/README.md
+        # CI / CD
+        - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
+        - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
+        - ../.github/workflows/release.yaml .github/workflows/release.yaml
+        - ../.github/workflows/labels.yaml .github/workflows/labels.yaml
+        - ../.github/lock.yaml .github/lock.yaml
+        - ../.github/labels.yaml .github/labels.yaml
+        - ../.github/stale.yaml .github/stale.yaml
+        - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+        - ../.github/wip.yaml .github/wip.yaml
+        - ../.releaserc .releaserc
+        # sf files
+        - .manala/make
+        - .manala/mariadb
+        - .manala/nginx
+        - .manala/php
+        - .manala/starship
+        - .manala/.dockerignore
+        - .manala/.gitignore
+        - .manala/docker-compose.yaml.tmpl
+        - .manala/Dockerfile.tmpl
+        - .manala/Makefile.tmpl
+        - .manala.yaml.tmpl.dist
+        - Makefile.dist
+        - README.md .manala/README.md
 
 #######
 # App #

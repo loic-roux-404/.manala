@@ -6,14 +6,14 @@ jobs:
     test:
         name: Tests
         runs-on: ubuntu-latest
-
         env: {}
-
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
 
             - name: install manala
-              run: curl -sfL https://raw.githubusercontent.com/manala/manala/master/godownloader.sh | sh
+              run: |
+                curl -sfL https://raw.githubusercontent.com/manala/manala/master/godownloader.sh | \
+                sudo BINDIR=/usr/local/bin sh
 
             - name: test all recipes
               run: ./.tests/run.sh

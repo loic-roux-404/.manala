@@ -1,6 +1,0 @@
-manala:
-  repository: '%REPOSITORY%'
-  recipe: 'dev.python'
-
-gitignore: |
-  "build/"
