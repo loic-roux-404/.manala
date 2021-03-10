@@ -1,6 +1,11 @@
 ## Subject
 
-## Done
+<!-- Don't forget :
+    - semantic commit
+    - id of task if needed
+-->
+
+## TO DO
 
 ## View
 
@@ -8,11 +13,8 @@
 
 ## Good practices
 
-- [] Screenshot <br>
-- [] Task id in PR title<br>
-- [] Mon historique est correcte <br>
-- [] Je merge sur la branche demandée par mon ticket <br>
-- [] J'ai mis à jour ma branche avec la remote `g4-dev`<br>
-- [] J'ai bien enlevé les commandes de debuggage
+- [] Correct and up to date history
+- [] Correct target branch
+- [] Removed debug commands
 
 <!-- Pour cocher: [x] -->

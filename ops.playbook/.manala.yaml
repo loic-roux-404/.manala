@@ -11,7 +11,7 @@ manala:
     - ../.github/stale.yaml .github/stale.yaml
     - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
     - ../.github/wip.yaml .github/wip.yaml
-    - ../.releaserc .releaserc
+    - ../.releaserc.tmpl .releaserc
     # Vm module
     - ../ops.vagrant/.manala/vg-facade .manala/vg-facade
     - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl

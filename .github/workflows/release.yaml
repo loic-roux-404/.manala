@@ -40,6 +40,7 @@ jobs:
             -   name: semver plugins
                 run: |
                   npm install '@semantic-release/changelog' \
+                      '@semantic-release/exec' \
                       '@semantic-release/commit-analyzer' \
                       '@semantic-release/github' \
                       '@semantic-release/release-notes-generator' \
