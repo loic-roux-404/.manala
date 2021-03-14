@@ -4,12 +4,14 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/github",
     "@semantic-release/changelog"
-{{- with index .Vars "semantic_release" -}},
-    ["@semantic-release/github"
-    {{- with index . "assets" -}},
-      {"assets": {{ . | toJson }}}
-    {{- end }} 
-    ]
+{{- with index .Vars "semantic_release" -}}
+
+{{- with index . "exec" -}},
+    ["@semantic-release/exec", {{ . | toJson }}]
+{{- end -}}
+{{- with index . "github" -}},
+    ["@semantic-release/github", {{ . | toJson }}]
 {{- end }}  
+{{- end }} 
   ]
 }

@@ -26,6 +26,8 @@ recipe_save: dev.cpp
 
 gitignore: ''
 
-# check https://github.com/semantic-release/github#assets
-
-semantic_release: ~
+semantic_release:
+    # https://github.com/semantic-release/exec#usage
+    exec: ~
+    # check https://github.com/semantic-release/github#assets
+    github: ~
