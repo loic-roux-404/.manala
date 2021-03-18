@@ -9,9 +9,6 @@ on:
 
 jobs:
     artifact:
-        strategy:
-            matrix:
-                java: [ 13 ]
         env:
             MVN_FLAGS: "-Dproperties.java.version=${{ matrix.java }} -B clean"
 
