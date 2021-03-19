@@ -4,7 +4,7 @@ manala:
         # CI / CD
         - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
         - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
-        - ../.github/workflows/release.yaml .github/workflows/release.yaml
+        #- ../.github/workflows/release.yaml .github/workflows/release.yaml
         - ../.github/workflows/labels.yaml .github/workflows/labels.yaml
         - ../.github/lock.yaml .github/lock.yaml
         - ../.github/labels.yaml .github/labels.yaml
@@ -15,7 +15,8 @@ manala:
         # gitignore
         - .gitignore.tmpl .gitignore
         - .editorconfig
-        - .vscode/
+        - .vscode/extensions.json
+        - .vscode/settings.json
         # base
         - ../.gitattributes .gitattributes
         - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist

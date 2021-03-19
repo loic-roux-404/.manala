@@ -2,16 +2,14 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    "@semantic-release/github",
     "@semantic-release/changelog"
-{{- with index .Vars "semantic_release" -}}
-
-{{- with index . "exec" -}},
+{{- with index .Vars.semantic_release "exec" -}},
     ["@semantic-release/exec", {{ . | toJson }}]
 {{- end -}}
-{{- with index . "github" -}},
-    ["@semantic-release/github", {{ . | toJson }}]
+{{- if index .Vars.semantic_release "github" -}},
+    ["@semantic-release/github", {{ index .Vars.semantic_release "github" | toJson }}]
+{{ else }},
+    "@semantic-release/github"
 {{- end }}  
-{{- end }} 
   ]
 }

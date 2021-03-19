@@ -5,7 +5,14 @@ on:
     types:
       - created
 jobs:
+
     test:
+        strategy:
+            matrix:
+                java: [ 13 ]
+        env:
+            MVN_FLAGS: "-Dproperties.java.version=${{ matrix.java }} -B clean"
+
         name: Pr title check
         runs-on: ubuntu-latest
         steps:
