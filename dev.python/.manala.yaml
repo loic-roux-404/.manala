@@ -25,3 +25,5 @@ manala:
 recipe_save: dev.python
 
 gitignore: ''
+
+semantic_release: {}

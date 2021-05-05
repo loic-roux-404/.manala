@@ -8,7 +8,7 @@ on:
             - next
             - next-major
             - alpha
-            - [0-9].[0-9].[0-9]
+            - '*.*.*'
 
 jobs:
     release:

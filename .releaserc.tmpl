@@ -4,11 +4,12 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog"
 {{- with index .Vars.semantic_release "exec" -}},
-    ["@semantic-release/exec", {{ . | toJson }}]
+    ["@semantic-release/exec", {{ index .Vars.semantic_release "exec" | toJson }}]
 {{- end -}}
-{{- if index .Vars.semantic_release "github" -}},
+{{- with index .Vars.semantic_release "github" -}},
     ["@semantic-release/github", {{ index .Vars.semantic_release "github" | toJson }}]
-{{ else }},
+{{- end }}
+{{- if not (index .Vars.semantic_release "github") }},
     "@semantic-release/github"
 {{- end }}  
   ]
