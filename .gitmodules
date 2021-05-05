@@ -1,0 +1,3 @@
+[submodule "ops.vagrant/.manala/vg-facade"]
+	path = ops.vagrant/.manala/vg-facade
+	url = git@github.com:loic-roux-404/vg-facade.git
