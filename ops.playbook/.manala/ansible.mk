@@ -2,15 +2,22 @@
 SHELL=/bin/bash
 # Executables
 PIP:=pip3
+
+# Functions
 # read setting from config (touch config.yaml if not exist)
 config=$(shell yq -xa merge config.yaml .manala.yaml | yq r - $(1))
+
+define parse_ansible_vars
+	$(foreach var, $1, -e $(subst ",,$(var)))
+endef
+
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
 IP?=$(call config,vagrant.network.ip)
 DOMAIN?=$(call config,vagrant.domain)
 # ansible vars
-OPTIONS:=$(foreach var, $(ANSIBLE_VARS), -e $(subst ",,$(var)))
+OPTIONS:=$(call parse_ansible_vars, $(ANSIBLE_VARS))
 # Environment variables of ansible
 ANSIBLE_STDOUT_CALLBACK:=default
 ANSIBLE_FORCE_COLOR:=true
@@ -90,7 +97,8 @@ install:
 # =============================
 debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
-	$(eval ANSIBLE_VARS:=ansible_user=vagrant ansible_host=localhost)
+	$(eval OPTIONS+=\
+		$(call parse_ansible_vars, ansible_user=vagrant ansible_host=localhost))
 
 .PRECIOUS: $(addsuffix .invs, $(PLAYBOOKS))
 # Launch playbook in debug mode : formatted yaml &
