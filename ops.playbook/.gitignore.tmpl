@@ -5,7 +5,7 @@ roles/*
 {{- end }}
 .vagrant/
 .ext_roles
-utils/vault_pass.sh
+vault_pass.sh
 config.yaml
 
 # virtualenv
@@ -47,5 +47,8 @@ var/
 # Translations
 *.mo
 *.pot
+
+# vagrant module
+.manala/vg-facade
 
 {{ .Vars.gitignore | default "" }}
