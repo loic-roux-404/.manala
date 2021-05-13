@@ -18,3 +18,4 @@ manala:
 
 # Save variable (manala delete original config vars under manala key)
 recipe_save: dev.cd
+semantic_release: {}

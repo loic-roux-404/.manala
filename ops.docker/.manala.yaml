@@ -1,9 +1,10 @@
 manala:
   description: Docker
   sync:
-    - .manala/run.mk
+    - .manala/docker.mk
     - ../.gitattributes .gitattributes
     - ../.manala.yaml.tmpl .manala.yaml.tmpl
     
 # Save variable (manala delete original config vars under manala key)
 recipe_save: ops.docker
+semantic_release: {}

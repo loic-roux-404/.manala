@@ -29,6 +29,8 @@ recipe_save: dev.python-vm
 
 gitignore: ''
 
+semantic_release: {}
+
 # This vagrant schema in generic for playbook development
 vagrant:
   # @schema {"type": "string", "minLength": 3}

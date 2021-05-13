@@ -24,3 +24,5 @@ manala:
 recipe_save: dev.node
 
 gitignore: ''
+
+semantic_release: {}

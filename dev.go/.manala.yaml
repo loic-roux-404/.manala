@@ -25,3 +25,4 @@ manala:
 recipe_save: dev.go
 
 gitignore: ''
+semantic_release: {}

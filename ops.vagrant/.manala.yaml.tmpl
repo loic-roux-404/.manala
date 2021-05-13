@@ -1,6 +1,6 @@
 manala:
   repository: "https://github.com/loic-roux-404/manala-recipes.git" 
-  recipe: {{ default "vagrant" .Vars.recipe_save }}
+  recipe: {{ default "ops.vagrant" .Vars.recipe_save }}
 {{"\r"}}
 
 gitignore: {{ .Vars.gitignore | toYaml }}

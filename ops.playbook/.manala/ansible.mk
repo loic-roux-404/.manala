@@ -16,7 +16,6 @@ ANSIBLE_STDOUT_CALLBACK:=default
 ANSIBLE_FORCE_COLOR:=true
 # Default Inventory
 INVENTORY?=$(call config,ansible.inventory)
-DEV_INVENTORY:=$(call config,ansible.inventory)/dev_hosts
 HOST:=
 ROLES:=$(notdir $(basename $(wildcard roles/role-*) ))
 TAGS+=$(ROLES) # Need callback plugin
@@ -91,7 +90,7 @@ install:
 # =============================
 debug-deco:
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
-	$(eval INVENTORY:=$(DEV_INVENTORY))
+	$(eval ANSIBLE_VARS:=ansible_user=vagrant ansible_host=localhost)
 
 .PRECIOUS: $(addsuffix .invs, $(PLAYBOOKS))
 # Launch playbook in debug mode : formatted yaml &

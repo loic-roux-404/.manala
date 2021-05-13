@@ -17,7 +17,7 @@ manala:
     - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../ops.vagrant/Vagrantfile Vagrantfile
     # role files
-    - ../ops.docker/.manala/run.mk .manala/docker.mk
+    - ../ops.docker/.manala/docker.mk .manala/docker.mk
     - ../ops.playbook/ansible.cfg.tmpl ansible.cfg.tmpl
     - ../ops.playbook/.manala/ansible.mk ansible.mk
     - .vscode/settings.json
@@ -34,6 +34,7 @@ manala:
 recipe_save: ops.role
 
 gitignore: ''
+semantic_release: {}
 
 # Configure ansible playbook boilerplate (cfg / role dev)
 ansible:
