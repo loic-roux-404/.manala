@@ -22,8 +22,5 @@ manala:
         - ../.gitattributes .gitattributes
         - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
-# Save variable (manala delete original config vars under manala key)
-recipe_save: dev.deno
-
 gitignore: ''
 semantic_release: {}

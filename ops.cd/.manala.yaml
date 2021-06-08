@@ -1,5 +1,6 @@
 manala:
-    description: Deno
+    description: Continuous delivery
+    template: ../.manala.yaml.tmpl.dist
     sync:
         # CI / CD
         - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -14,8 +15,6 @@ manala:
         - ../.releaserc.tmpl .releaserc
         # base
         - ../.gitattributes .gitattributes
-        - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
-# Save variable (manala delete original config vars under manala key)
-recipe_save: dev.cd
 semantic_release: {}
+gitignore: ""

@@ -1,6 +1,9 @@
 manala:
-  recipe: {{ .Vars.recipe_save }}
+  recipe: {{ .Recipe.Name }}
+  {{- if not .Recipe.Repository.Main }}
+  repository: {{ .Recipe.Repository.Source }}
+  {{- end }}
 {{"\r"}}
-{{printf "%#v" .}}
+
 gitignore: {{ .Vars.gitignore | toYaml }}
 {{"\r"}}

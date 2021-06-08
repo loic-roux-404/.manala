@@ -30,9 +30,6 @@ manala:
     # base
     - ../.gitattributes .gitattributes
 
-# Save variable (manala delete original config vars under manala key)
-recipe_save: ops.role
-
 gitignore: ''
 semantic_release: {}
 
