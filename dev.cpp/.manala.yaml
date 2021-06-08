@@ -19,7 +19,6 @@ manala:
         - .vscode/settings.json
         # base
         - ../.gitattributes .gitattributes
-        - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 gitignore: ''
 

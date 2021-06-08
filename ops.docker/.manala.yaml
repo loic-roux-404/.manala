@@ -1,8 +1,10 @@
 manala:
   description: Docker
+  template: ../.manala.yaml.tmpl.dist
   sync:
     - .manala/docker.mk
     - ../.gitattributes .gitattributes
     - ../.manala.yaml.tmpl .manala.yaml.tmpl
 
 semantic_release: {}
+giignore: ""

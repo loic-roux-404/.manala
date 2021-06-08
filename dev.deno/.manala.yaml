@@ -1,5 +1,6 @@
 manala:
     description: Deno
+    template: ../.manala.yaml.tmpl.dist
     sync:
         # CI / CD
         - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -20,7 +21,6 @@ manala:
         - .github/workflows/test.yml
         # base
         - ../.gitattributes .gitattributes
-        - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 gitignore: ''
 semantic_release: {}

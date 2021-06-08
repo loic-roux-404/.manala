@@ -3,14 +3,16 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog"
-{{- with index .Vars.semantic_release "exec" -}},
-    ["@semantic-release/exec", {{ index .Vars.semantic_release "exec" | toJson }}]
+{{- with index .Vars "semantic_release" -}}
+{{- with index . "exec" -}},
+    ["@semantic-release/exec", {{ . | toJson }}]
 {{- end -}}
-{{- with index .Vars.semantic_release "github" -}},
-    ["@semantic-release/github", {{ index .Vars.semantic_release "github" | toJson }}]
+{{- with index . "github" -}},
+    ["@semantic-release/github", {{ . | toJson }}]
 {{- end }}
-{{- if not (index .Vars.semantic_release "github") }},
+{{- if not (index . "github") }},
     "@semantic-release/github"
-{{- end }}  
+{{- end }}
+{{- end }}
   ]
 }

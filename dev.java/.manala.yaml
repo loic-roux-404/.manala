@@ -1,5 +1,6 @@
 manala:
     description: Java
+    template: ../.manala.yaml.tmpl.dist
     sync:
       # CI / CD
       - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -17,9 +18,6 @@ manala:
       - .gitignore.tmpl .gitignore.tmpl
       - .editorconfig
       - ../.gitattributes .gitattributes
-      # base
-      - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 gitignore: ''
 

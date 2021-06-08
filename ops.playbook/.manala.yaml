@@ -1,5 +1,6 @@
 manala:
   description: Ansible playbook
+  template: ../ops.vagrant/.manala.yaml.tmpl.dist
   sync:
     # CI / CD
     - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -14,7 +15,6 @@ manala:
     - ../.releaserc.tmpl .releaserc
     # Vm module
     - ../ops.vagrant/.manala/vg-facade .manala/vg-facade
-    - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../ops.vagrant/Vagrantfile Vagrantfile
     # docker
     - ../ops.docker/.manala/docker.mk .manala/docker.mk

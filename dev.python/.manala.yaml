@@ -1,5 +1,6 @@
 manala:
     description: Python
+    template: ../.manala.yaml.tmpl.dist
     sync:
       # CI / CD
       - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -19,7 +20,6 @@ manala:
       - .flake8
       # base
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 gitignore: ''
 

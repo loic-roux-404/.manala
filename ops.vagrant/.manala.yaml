@@ -1,9 +1,9 @@
 manala:
     description: Vagrant
+    template: .manala.yaml.tmpl.dist
     sync:
         - Vagrantfile
         - .manala
-        - .manala.yaml.tmpl
 
 # generic vagrant config
 vagrant:

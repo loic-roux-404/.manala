@@ -1,5 +1,6 @@
 manala:
   description: Ansible role
+  template: ../ops.vagrant/.manala.yaml.tmpl.dist
   sync:
     # CI / CD
     - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
@@ -14,7 +15,6 @@ manala:
     - ../.releaserc.tmpl .releaserc
     # Vm module
     - ../ops.vagrant/.manala/ .manala/vg-facade
-    - ../ops.vagrant/.manala.yaml.tmpl .manala.yaml.tmpl
     - ../ops.vagrant/Vagrantfile Vagrantfile
     # role files
     - ../ops.docker/.manala/docker.mk .manala/docker.mk

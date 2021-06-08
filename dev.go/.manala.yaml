@@ -19,7 +19,6 @@ manala:
       - .editorconfig
       # base
       - ../.gitattributes .gitattributes
-      - ../.manala.yaml.tmpl.dist .manala.yaml.tmpl.dist
 
 gitignore: ''
 semantic_release: {}
