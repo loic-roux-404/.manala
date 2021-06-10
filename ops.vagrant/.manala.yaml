@@ -5,6 +5,8 @@ manala:
         - Vagrantfile
         - .manala
 
+gitignore: ''
+
 # generic vagrant config
 vagrant:
     # @schema {"type": "string", "minLength": 3}
