@@ -35,14 +35,15 @@ jobs:
                   restore-keys: |
                     ${{ runner.os }}-node-
 
-            -   name: semver plugins
-                run: |
-                  npm install '@semantic-release/changelog' \
-                      '@semantic-release/exec' \
-                      '@semantic-release/commit-analyzer' \
-                      '@semantic-release/github' \
-                      '@semantic-release/release-notes-generator' \
-                       semantic-release
+            - run: npm i
+            - name: semver plugins
+              run: |
+                npm install '@semantic-release/changelog' \
+                    '@semantic-release/exec' \
+                    '@semantic-release/commit-analyzer' \
+                    '@semantic-release/github' \
+                    '@semantic-release/release-notes-generator' \
+                      semantic-release
 
             - name: Semantic Release
               uses: cycjimmy/semantic-release-action@v2

@@ -1,0 +1,27 @@
+manala:
+    description: Nodejs
+    template: ../.manala.yaml.tmpl.dist
+    sync:
+      # CI / CD
+      - ../.github/workflows/auto-merge.yaml .github/workflows/auto-merge.yaml
+      - ../.github/workflows/pr-check.yaml .github/workflows/pr-check.yaml
+      # - .github/workflows/release.yaml.tmpl .github/workflows/release.yaml
+      - ../.github/workflows/labels.yaml .github/workflows/labels.yaml
+      - ../.github/lock.yaml .github/lock.yaml
+      - ../.github/labels.yaml .github/labels.yaml
+      - ../.github/stale.yaml .github/stale.yaml
+      - ../.github/PULL_REQUEST_TEMPLATE.md .github/PULL_REQUEST_TEMPLATE.md
+      - ../.github/wip.yaml .github/wip.yaml
+      - ../.releaserc.tmpl .releaserc
+      # node files
+      - ../dev.node/.vscode .vscode
+      - ../dev.node/.editorconfig .editorconfig
+      # base
+      - ../.gitattributes .gitattributes
+
+gitignore: ''
+semantic_release:
+    runsOn: ubuntu-latest
+    envs: []
+    exec: {}
+    github: {}
