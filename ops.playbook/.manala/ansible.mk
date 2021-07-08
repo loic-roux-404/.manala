@@ -11,6 +11,10 @@ define parse_ansible_vars
 	$(foreach var, $1, -e $(subst ",,$(var)))
 endef
 
+define parse_ansible_tags
+	$(foreach var, $1, -t $(subst ",,$(var)))
+endef
+
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
 DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
@@ -21,6 +25,7 @@ OPTIONS:=$(call parse_ansible_vars, $(ANSIBLE_VARS))
 # Environment variables of ansible
 ANSIBLE_STDOUT_CALLBACK:=default
 ANSIBLE_FORCE_COLOR:=true
+ANSIBLE_BECOME_METHOD:=
 # Default Inventory
 INVENTORY?=$(call config,ansible.inventory)
 HOST:=
@@ -31,9 +36,11 @@ INVS_DEBUG:=graph list
 
 # Build command
 define playbook_exe
+	$(if $(ANSIBLE_BECOME_METHOD),ANSIBLE_BECOME_METHOD=$(ANSIBLE_BECOME_METHOD),) \
 	ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ANSIBLE_FORCE_COLOR=$(ANSIBLE_FORCE_COLOR) \
-	ansible-playbook $(OPTIONS) $(TAG)\
+	ansible-playbook $(OPTIONS) \
+	$(call parse_ansible_tags, $(TAG)) \
 	$(if $(INVENTORY),-i $(INVENTORY)$(or $(HOST),),) \
 	$(if $1,$1.yml,$*.yml) \
 	$(ARG)
@@ -46,8 +53,9 @@ endef
 help:
 	@echo "[======== Ansible Help ========]"
 	@echo "Usage: make <playbook> (ARG=<your-arg>)"
-	@echo "Available PLAYBOOKS: $(PLAYBOOKS)"
 	@echo "run role / tag : $(addsuffix .tag, $(TAGS))"
+	@echo "add .debug to debug tag in local vm"
+	@echo "Available PLAYBOOKS: $(PLAYBOOKS)"
 	@$(MAKE) help_more || echo -n ''
 	@echo "[========== OPTIONS ===========]"
 	@echo "Ip: $(IP)"
@@ -86,16 +94,18 @@ install:
 # Example : make role-basics.tag ( for role-basics)
 # Role are automaticly tagged with ansible callback plugin auto_tag.py
 %.tag:
-	$(eval TAG:= -t $*)
+	$(eval TAG:=$*)
 	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
 
-%.tag.debug: debug-deco %.tag
-	@echo '[ Executed tag $* ]'
+%.tag.debug: debug-deco
+	$(eval TAG:=$*)
+	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
 
 # =============================
 # Debugging zone on next lines
 # =============================
 debug-deco:
+	$(eval ANSIBLE_BECOME_METHOD:=sudo)
 	$(eval ANSIBLE_STDOUT_CALLBACK:=yaml)
 	$(eval OPTIONS+=\
 		$(call parse_ansible_vars, ansible_user=vagrant ansible_host=localhost))
