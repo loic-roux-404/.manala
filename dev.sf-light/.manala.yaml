@@ -27,6 +27,10 @@ manala:
         - Makefile.dist
         - README.md .manala/README.md
 
+# env 
+gitignore: ""
+semantic_release: {}
+
 #######
 # App #
 #######
