@@ -17,7 +17,7 @@ endef
 
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
-DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
+DEFAULT_PLAYBOOK=$(basename $(call config, vagrant.ansible.sub_playbook))
 IP?=$(call config,vagrant.network.ip)
 DOMAIN?=$(call config,vagrant.domain)
 # ansible vars
@@ -27,7 +27,7 @@ ANSIBLE_STDOUT_CALLBACK:=default
 ANSIBLE_FORCE_COLOR:=true
 ANSIBLE_BECOME_METHOD:=
 # Default Inventory
-INVENTORY?=$(call config,ansible.inventory)
+INVENTORY?=$(call config, ansible.inventory)
 HOST:=
 ROLES:=$(notdir $(basename $(wildcard roles/role-*) ))
 TAGS+=$(ROLES) # Need callback plugin
@@ -36,13 +36,13 @@ INVS_DEBUG:=graph list
 
 # Build command
 define playbook_exe
-	$(if $(ANSIBLE_BECOME_METHOD),ANSIBLE_BECOME_METHOD=$(ANSIBLE_BECOME_METHOD),) \
+	$(if $(ANSIBLE_BECOME_METHOD), ANSIBLE_BECOME_METHOD=$(ANSIBLE_BECOME_METHOD),) \
 	ANSIBLE_STDOUT_CALLBACK=$(ANSIBLE_STDOUT_CALLBACK) \
 	ANSIBLE_FORCE_COLOR=$(ANSIBLE_FORCE_COLOR) \
 	ansible-playbook $(OPTIONS) \
 	$(call parse_ansible_tags, $(TAG)) \
-	$(if $(INVENTORY),-i $(INVENTORY)$(or $(HOST),),) \
-	$(if $1,$1.yml,$*.yml) \
+	$(if $(INVENTORY), -i $(INVENTORY)$(or $(HOST),), ) \
+	$(if $1, $1.yml, $*.yml) \
 	$(ARG)
 endef
 # Prompt exe
@@ -53,7 +53,7 @@ endef
 help:
 	@echo "[======== Ansible Help ========]"
 	@echo "Usage: make <playbook> (ARG=<your-arg>)"
-	@echo "run role / tag : $(addsuffix .tag, $(TAGS))"
+	@echo "run tag : $(addsuffix .t, $(TAGS))"
 	@echo "add .debug to debug tag in local vm"
 	@echo "Available PLAYBOOKS: $(PLAYBOOKS)"
 	@$(MAKE) help_more || echo -n ''
@@ -67,6 +67,7 @@ help:
 	@echo "inventory hosts : $(addsuffix .invs, $(INVS_DEBUG))"
 	@echo "host vars : inventory-hostname.facts"
 	@echo "[==============================]"
+	@echo $(shell egrep '^\[.+\]' $(INVENTORY)/hosts)
 
 .DEFAULT_GOAL := help
 .PHONY: $(PLAYBOOKS)
@@ -89,18 +90,6 @@ install:
 %.run-f:
 	@$(call playbook_exe)
 
-.PHONY: $(addsuffix .tag, $(TAGS))
-# Run specific tag / role name
-# Example : make role-basics.tag ( for role-basics)
-# Role are automaticly tagged with ansible callback plugin auto_tag.py
-%.tag:
-	$(eval TAG:=$*)
-	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
-
-%.tag.debug: debug-deco
-	$(eval TAG:=$*)
-	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
-
 # =============================
 # Debugging zone on next lines
 # =============================
@@ -116,11 +105,24 @@ debug-deco:
 %.debug: debug-deco
 	$(call playbook_exe)
 
-.PRECIOUS: $(addsuffix .debug, graph list)
+# Run specific tag / role name
+# Example : make role-basics.tag ( for role-basics)
+# Role are automaticly tagged with ansible callback plugin auto_tag.py
+.PHONY: $(addsuffix .t, $(TAGS))
+%.t:
+	$(eval TAG:=$*)
+	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
+
+.PHONY: $(addsuffix .tag.debug, $(TAGS))
+%.tag.debug: debug-deco
+	$(eval TAG:=$*)
+	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
+
+.PHONY: $(addsuffix .dump, graph list)
 # More info about playbook env : graph.invs list.invs
 %.invs:
 	ansible-inventory -i $(INVENTORY) --$* $(ARG)
 
-.PRECIOUS: hostname-from-inventory.facts
+.PHONY: $(addsuffix .facts, $(shell egrep '^\[.+\]' $(INVENTORY)/hosts | tr -d ‘\[\]’))
 %.facts:
 	ansible -i $(INVENTORY) $* -m setup
