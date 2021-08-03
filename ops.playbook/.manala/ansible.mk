@@ -17,17 +17,18 @@ endef
 
 # All variables necessary to run and debug ansible playbooks
 PLAYBOOKS=$(basename $(wildcard *.yml))
-DEFAULT_PLAYBOOK=$(basename $(call config, vagrant.ansible.sub_playbook))
+DEFAULT_PLAYBOOK=$(basename $(call config,vagrant.ansible.sub_playbook))
 IP?=$(call config,vagrant.network.ip)
 DOMAIN?=$(call config,vagrant.domain)
 # ansible vars
-OPTIONS:=$(call parse_ansible_vars, $(ANSIBLE_VARS))
+OPTIONS:=$(call parse_ansible_vars,$(ANSIBLE_VARS))
 # Environment variables of ansible
 ANSIBLE_STDOUT_CALLBACK:=default
 ANSIBLE_FORCE_COLOR:=true
 ANSIBLE_BECOME_METHOD:=
 # Default Inventory
 INVENTORY?=$(call config, ansible.inventory)
+HOSTS:=$(shell egrep '^\[.+\]' $(INVENTORY)/hosts | tr -d ‘\[\]’)
 HOST:=
 ROLES:=$(notdir $(basename $(wildcard roles/role-*) ))
 TAGS+=$(ROLES) # Need callback plugin
@@ -54,7 +55,7 @@ help:
 	@echo "[======== Ansible Help ========]"
 	@echo "Usage: make <playbook> (ARG=<your-arg>)"
 	@echo "run tag : $(addsuffix .t, $(TAGS))"
-	@echo "add .debug to debug tag in local vm"
+	@echo "add -debug to debug tag in local vm"
 	@echo "Available PLAYBOOKS: $(PLAYBOOKS)"
 	@$(MAKE) help_more || echo -n ''
 	@echo "[========== OPTIONS ===========]"
@@ -62,12 +63,12 @@ help:
 	@echo "Domain: $(DOMAIN)"
 	@echo "default inventory: $(INVENTORY)"
 	@echo "default playbook: $(DEFAULT_PLAYBOOK)"
+	@echo "default inventory hosts : $(HOSTS)"
 	@echo "[====== DEBUG COMMANDS ========]"
 	@echo "playbook (vagrant) : $(addsuffix .debug, $(PLAYBOOKS))"
 	@echo "inventory hosts : $(addsuffix .invs, $(INVS_DEBUG))"
 	@echo "host vars : inventory-hostname.facts"
 	@echo "[==============================]"
-	@echo $(shell egrep '^\[.+\]' $(INVENTORY)/hosts)
 
 .DEFAULT_GOAL := help
 .PHONY: $(PLAYBOOKS)
@@ -77,8 +78,8 @@ $(PLAYBOOKS): % : %.run
 install:
 	$(PIP) install -r requirements.txt || true
 	ansible-galaxy install -r requirements.yaml $(ARG)
-	$(foreach var,$(shell ls -d *roles/role*/requirements.txt),$(PIP) install -r $(var))
-	$(foreach var,$(shell ls -d *.ext_roles/role*/requirements.txt),$(PIP) install -r $(var))
+	$(foreach var,$(shell ls -d *roles/role*/requirements.txt), $(PIP) install -r $(var))
+	$(foreach var,$(shell ls -d *.ext_roles/role*/requirements.txt), $(PIP) install -r $(var))
 
 # ==============================
 # Warning run target is for prod
@@ -99,7 +100,6 @@ debug-deco:
 	$(eval OPTIONS+=\
 		$(call parse_ansible_vars, ansible_user=vagrant ansible_host=localhost))
 
-.PRECIOUS: $(addsuffix .invs, $(PLAYBOOKS))
 # Launch playbook in debug mode : formatted yaml &
 # dev inventory pointing to docker hosts
 %.debug: debug-deco
@@ -108,21 +108,19 @@ debug-deco:
 # Run specific tag / role name
 # Example : make role-basics.tag ( for role-basics)
 # Role are automaticly tagged with ansible callback plugin auto_tag.py
-.PHONY: $(addsuffix .t, $(TAGS))
 %.t:
 	$(eval TAG:=$*)
 	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
-
-.PHONY: $(addsuffix .tag.debug, $(TAGS))
-%.tag.debug: debug-deco
+# Same on debug vm
+%.t-debug: debug-deco
 	$(eval TAG:=$*)
 	$(call playbook_exe, $(DEFAULT_PLAYBOOK))
 
-.PHONY: $(addsuffix .dump, graph list)
-# More info about playbook env : graph.invs list.invs
-%.invs:
+# More info about playbook env
+# add ARG=--vars to print vars per host
+%.print:
 	ansible-inventory -i $(INVENTORY) --$* $(ARG)
 
-.PHONY: $(addsuffix .facts, $(shell egrep '^\[.+\]' $(INVENTORY)/hosts | tr -d ‘\[\]’))
+# Facts print
 %.facts:
 	ansible -i $(INVENTORY) $* -m setup
