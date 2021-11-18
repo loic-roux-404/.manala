@@ -3,9 +3,14 @@ SHELL=/bin/bash
 # Executables
 PIP:=pip3
 
+### Requirements
+# yq 4.x
+# python3 and pip
+# ansible in python virtual env (ex conda)
+
 # Functions
 # read setting from config (touch config.yaml if not exist)
-config=$(shell yq -xa merge config.yaml .manala.yaml | yq r - $(1))
+config=$(shell yq eval-all .$(1) config.yaml .manala.yaml)
 
 define parse_ansible_vars
 	$(foreach var, $1, -e $(subst ",,$(var)))
